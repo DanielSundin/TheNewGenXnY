@@ -14,16 +14,19 @@ namespace SSCEUP
         private static void RunLogin()
         {
             LoginAuthentication loginauth = new LoginAuthentication();
-            loginauth.AddUser("ADMIN", "qwerty");
+            loginauth.AddNewUser("ADMIN", "qwerty", true); // Hårdkodade användare
+            loginauth.AddNewUser("TEST", "test"); // Hårdkodade användare
             Console.ForegroundColor = ConsoleColor.Green;
             System.Console.WriteLine("\nLOGIN PROMPT\n");
             Console.ResetColor();
+
+            //Kanske försöka lyfta ut Loginförsök till egen metod. 
             for (int loginAttempts = 1; loginAttempts <= 3; loginAttempts++)
             {
                 System.Console.WriteLine("Enter Username");
                 string inputName = Console.ReadLine().ToUpper();
                 System.Console.WriteLine("Enter Password");
-            string inputPass = Console.ReadLine();
+                string inputPass = Console.ReadLine();
 
                 if (loginauth.CheckLoginInfo(inputName, inputPass) == false)
                 {
@@ -39,25 +42,30 @@ namespace SSCEUP
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == true)
                 {
-                    Console.Clear();
-                    System.Console.WriteLine("Welcome to the Bureau");
-                    Thread.Sleep(2000);
-                    Console.Clear();
-                    RunAdminMode();
+                    if (loginauth.IsAdmin(inputName,inputPass)==true)
+                    {
+                        RunAdminMode();
+                    }
+                    else
+                    {
+                        RunUserMode();
+                    }
                 }
             }
-    }
+        }
 
-        private static void RunAdminMode()
+     
+
+        private static void RunUserMode()
         {
             while (true)
             {
-                // Admin Menu
-                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[L]ist\n[S]earch\n[Q]uit");
+                // User Menu
+                System.Console.WriteLine("\tOptions\n[D]o Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
-                    case "A": 
+                    case "D":
                         {
                             Console.Clear();
 
@@ -71,5 +79,30 @@ namespace SSCEUP
                 }
             }
         }
+
+        private static void RunAdminMode()
+        {
+            while (true)
+            {
+                // Admin Menu
+                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[R]emove Survey\n[Q]uit");
+                string input = Console.ReadLine().ToUpper();
+                switch (input)
+                {
+                    case "A":
+                        {
+                            Console.Clear();
+
+                            break;
+                        }
+                    case "Q":
+                        {
+                            Environment.Exit(0);
+                            break;
+                        }
+                }
+            }
+        }
+
     }
 }
