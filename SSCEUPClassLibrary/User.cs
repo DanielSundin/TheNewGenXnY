@@ -1,7 +1,7 @@
 using System;
 
 
-namespace SSCEUP
+namespace SSCEUPClassLibrary
 {
     public class User
     {

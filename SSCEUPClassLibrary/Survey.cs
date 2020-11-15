@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SSCEUP
+namespace SSCEUPClassLibrary
 {
     public class Survey
     {

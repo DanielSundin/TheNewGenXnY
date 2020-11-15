@@ -1,4 +1,4 @@
-namespace SSCEUP
+namespace SSCEUPClassLibrary
 {
     public abstract class Question
     {

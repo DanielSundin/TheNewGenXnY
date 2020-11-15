@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SSCEUP
+namespace SSCEUPClassLibrary
 {
     class SurveyManager
     {

@@ -1,4 +1,4 @@
-namespace SSCEUP
+namespace SSCEUPClassLibrary
 {
     internal class YesNoQuestion : Question
     {
