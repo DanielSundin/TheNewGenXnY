@@ -8,6 +8,11 @@ namespace SSCEUPClassLibrary
             Text = text;
         }
 
+        public YesNoQuestion(bool answer) : base()
+        {
+            Answer = answer;
+        }
+
         public override string ToString()
                 {
                     return Text;
