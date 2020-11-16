@@ -7,7 +7,7 @@ namespace SSCEUPClassLibrary
     {
         private List<User> listOfUserInfo = new List<User>();
 
-        public void AddNewUser(string userName, string userPassword)
+        public void AddNewUser(string userName, string userPassword)  //behövs?
         {
             User user = new User(userName, userPassword);
             listOfUserInfo.Add(user);

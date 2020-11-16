@@ -50,6 +50,8 @@ namespace SSCEUP
                     else
                     {
                         RunUserMode();
+                        Survey samplesurvey =new Survey();
+                        samplesurvey.MakeSampleList();
                     }
                 }
             }
@@ -69,13 +71,18 @@ namespace SSCEUP
                     case "D":
                         {
                             Console.Clear();
-
+                            DoSurvey();
                             break;
                         }
                     case "Q":
                         {
                             Environment.Exit(0);
                             break;
+                        }
+                    default:
+                        {
+                            Console.WriteLine("Invalid Choice!");
+                            return;
                         }
                 }
             }
@@ -93,7 +100,7 @@ namespace SSCEUP
                     case "A":
                         {
                             Console.Clear();
-                            DoSomething();
+                            DisplaySurveyMenu();
 
                             break;
                         }
@@ -105,74 +112,81 @@ namespace SSCEUP
                 }
             }
         }
+        private static void DoSurvey()
+        {
+            while (true)
+            {
+                
+            }
+        }
 
-        
 
-        private static void DoSomething()
+
+        private static void DisplaySurveyMenu()
         {
             SurveyManager surveyManager = new SurveyManager();
             while (true)
             {
-             //   Console.WriteLine("What kind of Answer do you want?");
-             //   Console.WriteLine("[Y]es or No Question\n[S]caleQuestion");
-            //    string questionChoice = Console.ReadLine().ToUpper().Trim();     
+                //   Console.WriteLine("What kind of Answer do you want?");
+                //   Console.WriteLine("[Y]es or No Question\n[S]caleQuestion");
+                //    string questionChoice = Console.ReadLine().ToUpper().Trim();     
 
-                
-             //   switch (questionChoice)
-             //   {
-                    // case "S":
-                        List<Question> listofquestion = new List<Question>();
 
-                        Console.WriteLine("What do you want to name the survey?");
-                        string surveyName = Console.ReadLine();
+                //   switch (questionChoice)
+                //   {
+                // case "S":
+                List<Question> listofquestion = new List<Question>();
 
-                        bool isDone = false;
-                        while (isDone == false)
+                Console.WriteLine("What do you want to name the survey?");
+                string surveyName = Console.ReadLine();
+
+                bool isDone = false;
+                while (isDone == false)
+                {
+                    //Question test = new ScaleQuestion("hur många bultar har ölandsbron");
+                    Console.WriteLine("Question?");
+                    string input = Console.ReadLine();
+                    Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
+                    string ynorscalechoice = Console.ReadLine().ToUpper().Trim();
+                    switch (ynorscalechoice)
+                    {
+                        case "Y":
+                            listofquestion.Add(new YesNoQuestion(input));
+                            break;
+                        case "N":
+                            listofquestion.Add(new ScaleQuestion(input));
+                            break;
+                        default:
+                            Console.WriteLine("Sorry, (Y)es or (N)o please");
+                            return;
+                    }
+
+                    Console.WriteLine("Add more Questions? Y/N");
+                    string continueInput = Console.ReadLine().ToUpper().Trim();
+                    if (continueInput == "N")
+                    {
+                        isDone = true;
+                        foreach (Question q in listofquestion)
                         {
-                            //Question test = new ScaleQuestion("hur många bultar har ölandsbron");
-                            Console.WriteLine("Question?");
-                            string input = Console.ReadLine();
-                            Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
-                            string ynorscalechoice = Console.ReadLine().ToUpper().Trim();
-                                    switch (ynorscalechoice)
-                                        {
-                                            case "Y":
-                                            listofquestion.Add(new YesNoQuestion(input));
-                                            break;
-                                            case "N":
-                                            listofquestion.Add(new ScaleQuestion(input));
-                                            break;
-                                            default:
-                                            Console.WriteLine("Sorry, (Y)es or (N)o please");
-                                            return;
-                                        }
-                            
-                            Console.WriteLine("Add more Questions? Y/N");
-                            string continueInput = Console.ReadLine().ToUpper().Trim();
-                            if (continueInput == "N")
-                            {
-                                isDone = true;
-                                foreach (Question q in listofquestion)
-                                {
-                                    Console.WriteLine(q.ToString());    
-                                }
-                            }
-                            else if (continueInput == "Y")
-                            {
-                                isDone = false;
-                            }
+                            Console.WriteLine(q.ToString());
                         }
-                        surveyManager.CreateNewSurvey(listofquestion, surveyName);
-
-                        // break;
-
-                    // case "Y":
-
-                    //     break;
-
-                    // default:
-                    // break;
+                    }
+                    else if (continueInput == "Y")
+                    {
+                        isDone = false;
+                    }
                 }
+                surveyManager.CreateNewSurvey(listofquestion, surveyName);
+
+                // break;
+
+                // case "Y":
+
+                //     break;
+
+                // default:
+                // break;
             }
         }
     }
+}
