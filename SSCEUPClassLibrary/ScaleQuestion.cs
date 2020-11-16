@@ -1,13 +1,17 @@
 namespace SSCEUPClassLibrary
 {
-    internal class ScaleQuestion : Question
+    public class ScaleQuestion : Question
     {
         // public enum Answer { get; set; }
         
-        internal ScaleQuestion(string text) : base(text)
+        public ScaleQuestion(string text) : base(text)
         {
            this.Text = text; 
         }
+                public override string ToString()
+                {
+                    return Text;
+                }
     }
 
     public enum ScaleAnswer  
