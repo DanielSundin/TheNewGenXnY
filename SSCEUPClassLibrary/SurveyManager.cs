@@ -11,6 +11,7 @@ namespace SSCEUPClassLibrary
         {
 
             Survey newsurvey = new Survey(listOfQuestions, name);
+            listOfSurveys.Add(newsurvey);
             return newsurvey;
 
         }

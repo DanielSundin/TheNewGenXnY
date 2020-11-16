@@ -48,12 +48,13 @@ namespace SSCEUPClassLibrary
 
             return yesNoQuestion;
         }
-        public void MakeSampleList()
+        public List<Question> MakeSampleList()
         {
-           // List<Question> SampleSurvey = new List<Question>();
+           List<Question> SampleSurvey = new List<Question>();
             SampleSurvey.Add(CreateScaleQuestion("Hur bra är röd på en skala 1-5"));
             SampleSurvey.Add(CreateScaleQuestion("Hur bra är grön på en skala 1-5"));
             SampleSurvey.Add(CreateScaleQuestion("Hur bra är gul på en skala 1-5"));
+            return SampleSurvey;
             
         }
     }

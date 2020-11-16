@@ -11,6 +11,7 @@ namespace SSCEUPClassLibrary
         {
             return Text;
         }
+      
         public ScaleQuestion(int answer) : base()
         {
             this.Answer = answer;

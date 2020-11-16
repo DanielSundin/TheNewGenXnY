@@ -50,8 +50,7 @@ namespace SSCEUP
                     else
                     {
                         RunUserMode();
-                        Survey samplesurvey =new Survey();
-                        samplesurvey.MakeSampleList();
+
                     }
                 }
             }
@@ -114,9 +113,52 @@ namespace SSCEUP
         }
         private static void DoSurvey()
         {
+            Survey samplesurvey = new Survey();
+
             while (true)
             {
-                
+                foreach (var q in samplesurvey.MakeSampleList())
+                {
+                    Console.WriteLine(q.ToString());
+
+                    if (q.GetType() == typeof(bool))
+                    {
+                        Console.WriteLine("Y/N");
+                        string input = Console.ReadLine().ToUpper().Trim();
+                        switch (input)
+                        {
+                            case "Y":
+                                {
+                                    
+                                    break;
+                                }
+                            case "N":
+                                {
+                                    break;
+                                }
+                            default:
+                                {
+                                    Console.WriteLine("Choose Y or N.");
+                                    return;
+                                }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("(1-5)");
+                        int input = Convert.ToInt32(Console.ReadLine());        //lägg till try/catch
+                        if (input > 0 && input < 6)
+                        {
+                            System.Console.WriteLine(" här är skalan 1-5!!!!");
+                            // q.answer = input;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Answer out of range!");
+                            return;
+                        }
+                    }
+                }
             }
         }
 
