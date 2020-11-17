@@ -4,8 +4,31 @@ namespace SSCEUPClassLibrary
 {
     public class SurveyManager
     {
-        List<Survey> listOfSurveys = new List<Survey>();
-        List<User> ListOfUsers = new List<User>();
+      public List<Survey> listOfSurveys = new List<Survey>();
+
+       
+        Survey survey = new Survey();
+        //public enum QuestionType{Scale,YesNo}
+
+        // public QuestionType questiontype;
+        // public void DoSomething()
+        // {
+        //     if (questiontype == QuestionType.Scale)
+        //     {
+        //         //QuestionType.valueOf(type)
+        //     }
+        // }
+        public void TypeOfQuestion(string nameOfQuestion, string type)
+        {
+            if (type == "Scale")
+            {
+                survey.AddScaleQuestion(nameOfQuestion);
+            }
+            else if (type == "YesNo")
+            {
+                survey.AddYesNoQuestion(nameOfQuestion);
+            }
+        }
 
         public Survey CreateNewSurvey(List<Question> listOfQuestions, string name)
         {
@@ -18,7 +41,7 @@ namespace SSCEUPClassLibrary
 
         public List<Survey> GetListOfSurveys()
         {
-            // vill vara mellan länk till dbRaspotoryt så koden här bara hänvisa till metoden i bdraspotoryt
+            // vill vara mellan länk till dbRepositoryt så koden här bara hänvisa till metoden i bdraspotoryt
             // lista alla surveys
             List<Survey> tempList = new List<Survey>();
             foreach (Survey survey in listOfSurveys)
@@ -28,6 +51,11 @@ namespace SSCEUPClassLibrary
 
             return tempList;
 
+        }
+        
+        public List<Question> GetQuestions()
+        {
+            return survey.GetListOfQuestions();
         }
 
         public void SubmitSurvey()
@@ -40,4 +68,8 @@ namespace SSCEUPClassLibrary
             // ta bort survey
         }
     }
+
+    
+       
+
 }

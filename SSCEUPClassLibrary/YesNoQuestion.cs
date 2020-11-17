@@ -2,7 +2,7 @@ namespace SSCEUPClassLibrary
 {
     public class YesNoQuestion : Question
     {
-        protected bool Answer { get; set; }
+        public bool Answer { get; set; }
         public YesNoQuestion(string text) : base(text)
         {
             Text = text;
@@ -10,12 +10,12 @@ namespace SSCEUPClassLibrary
 
         public YesNoQuestion(bool answer) : base()
         {
-            Answer = answer;
+            this.Answer = answer;
         }
 
         public override string ToString()
                 {
-                    return Text;
+                    return Text + " " +Answer;
                 }
     }
 }

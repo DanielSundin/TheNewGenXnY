@@ -5,7 +5,7 @@ namespace SSCEUPClassLibrary
 {
     public class User
     {
-        
+        public int Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string FirstName { get; set; }
@@ -14,7 +14,7 @@ namespace SSCEUPClassLibrary
         public bool IsMale { get; set; }
         public bool IsAdmin { get; set; }
 
-        public User(string userName,string password)
+        public User(string userName, string password)
         {
             this.UserName = userName;
             this.Password = password;
@@ -30,18 +30,11 @@ namespace SSCEUPClassLibrary
 
         public User(string firstName, string lastName, DateTime birthDate, bool isMale)
         {
-            
-            this.FirstName=firstName;
-            this.LastName=lastName;
-            this.Birthdate=birthDate;
-            this.IsMale=isMale;
+
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Birthdate = birthDate;
+            this.IsMale = isMale;
         }
-
-
-   
     }
-
-
-    
-
 }

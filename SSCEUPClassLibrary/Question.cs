@@ -2,21 +2,22 @@ namespace SSCEUPClassLibrary
 {
     public abstract class Question
     {
-       protected int ID { get; set; }
-        protected string Text { get; set; }  
+        public int ID { get; set; }
+        public string Text { get; set; }
+        //public int Answer {get; set;} 
 
-        protected Question(string text)
+        public Question()
+        {
+
+        }
+        public Question(string text)
         {
             Text = text;
         }
-        protected Question()
-        {
-            
-        }
         public override string ToString()
-                {
-                    return Text;
-                }
+        {
+            return Text;
+        }
     }
 
 }
