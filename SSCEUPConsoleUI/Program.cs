@@ -7,6 +7,8 @@ namespace SSCEUP
 {
     class Program
     {
+
+        public string currentuser = null;
         static void Main(string[] args)
         {
             RunLogin();
@@ -56,8 +58,6 @@ namespace SSCEUP
             }
         }
 
-
-
         private static void RunUserMode()
         {
             while (true)
@@ -92,7 +92,7 @@ namespace SSCEUP
             while (true)
             {
                 // Admin Menu
-                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[R]emove Survey\n[Q]uit");
+                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[D]o Survey\n[R]emove Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
@@ -103,6 +103,8 @@ namespace SSCEUP
 
                             break;
                         }
+                    case "D": DoSurvey(); break;
+
                     case "Q":
                         {
                             Environment.Exit(0);
@@ -113,27 +115,40 @@ namespace SSCEUP
         }
         private static void DoSurvey()
         {
-            Survey samplesurvey = new Survey();
+            // Survey samplesurvey = new Survey();
+
+            SurveyManager surveyManager = new SurveyManager();
+
+            foreach (Survey survey in surveyManager.listOfSurveys)
+            {
+                System.Console.WriteLine(survey.Name);
+        
+           
 
             while (true)
             {
-                foreach (var q in samplesurvey.MakeSampleList())
+                // foreach (Question q in samplesurvey.MakeSampleList())
+                foreach (Question q in surveyManager.GetQuestions())
                 {
                     Console.WriteLine(q.ToString());
 
-                    if (q.GetType() == typeof(bool))
+                    // if (q.GetType() == typeof(YesNoQuestion))
+                    if (q is YesNoQuestion)
                     {
+                        var qYesNo = (YesNoQuestion)q;
+                        //qYesNo.
                         Console.WriteLine("Y/N");
                         string input = Console.ReadLine().ToUpper().Trim();
                         switch (input)
                         {
                             case "Y":
                                 {
-                                    
+                                    qYesNo.Answer = true;
                                     break;
                                 }
                             case "N":
-                                {
+                                {   
+                                    qYesNo.Answer = false;
                                     break;
                                 }
                             default:
@@ -146,11 +161,13 @@ namespace SSCEUP
                     else
                     {
                         Console.WriteLine("(1-5)");
+                        var qScale = (ScaleQuestion)q;
                         int input = Convert.ToInt32(Console.ReadLine());        //lägg till try/catch
                         if (input > 0 && input < 6)
                         {
                             System.Console.WriteLine(" här är skalan 1-5!!!!");
-                            // q.answer = input;
+                            System.Console.WriteLine(q.GetType().ToString());
+                            qScale.Answer = input;
                         }
                         else
                         {
@@ -164,7 +181,7 @@ namespace SSCEUP
 
 
 
-        private static void DisplaySurveyMenu()
+        pub static void DisplaySurveyMenu()
         {
             SurveyManager surveyManager = new SurveyManager();
             while (true)
@@ -177,7 +194,7 @@ namespace SSCEUP
                 //   switch (questionChoice)
                 //   {
                 // case "S":
-                List<Question> listofquestion = new List<Question>();
+                // List<Question> listofquestion = new List<Question>();
 
                 Console.WriteLine("What do you want to name the survey?");
                 string surveyName = Console.ReadLine();
@@ -190,13 +207,16 @@ namespace SSCEUP
                     string input = Console.ReadLine();
                     Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
                     string ynorscalechoice = Console.ReadLine().ToUpper().Trim();
+
                     switch (ynorscalechoice)
                     {
                         case "Y":
-                            listofquestion.Add(new YesNoQuestion(input));
+                            surveyManager.TypeOfQuestion(input, "YesNo");
+                            //listofquestion.Add(new YesNoQuestion(input));
                             break;
                         case "N":
-                            listofquestion.Add(new ScaleQuestion(input));
+                            surveyManager.TypeOfQuestion(input, "Scale");
+                            // listofquestion.Add(new ScaleQuestion(input));
                             break;
                         default:
                             Console.WriteLine("Sorry, (Y)es or (N)o please");
@@ -208,7 +228,8 @@ namespace SSCEUP
                     if (continueInput == "N")
                     {
                         isDone = true;
-                        foreach (Question q in listofquestion)
+                        //foreachloop bara för att skriva ut alla frågor som skapats
+                        foreach (var q in surveyManager.GetQuestions())
                         {
                             Console.WriteLine(q.ToString());
                         }
@@ -218,8 +239,8 @@ namespace SSCEUP
                         isDone = false;
                     }
                 }
-                surveyManager.CreateNewSurvey(listofquestion, surveyName);
-
+                surveyManager.CreateNewSurvey(surveyManager.GetQuestions(), surveyName);
+                break;
                 // break;
 
                 // case "Y":
@@ -229,6 +250,7 @@ namespace SSCEUP
                 // default:
                 // break;
             }
+
         }
     }
 }

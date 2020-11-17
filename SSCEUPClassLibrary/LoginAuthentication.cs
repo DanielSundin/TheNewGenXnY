@@ -32,6 +32,8 @@ namespace SSCEUPClassLibrary
             return false;
         }
 
+        // returnera object User, returnera enum ? Permission typ
+
         public bool IsAdmin(string inputName,string inputPass)
         {
             foreach (var user in listOfUserInfo)

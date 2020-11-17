@@ -6,56 +6,42 @@ namespace SSCEUPClassLibrary
     public class Survey
     {
 
-        // private List<Survey> listOfSurveys = new List<Survey>();
-        private List<Question> Questions = new List<Question>();
-        private List<Question> SampleSurvey = new List<Question>();
-        
-        // private Survey survey;
+       
+        private List<Question> questions = new List<Question>();
 
-        
-        public string Name { get; set; }
         public int Id { get; set; }
+        public string Name { get; set; }
 
-        //fråga Thomas om denna.
-        public Survey()
-        {}
-        // public Survey(Survey survey)  Fråga Thomas
-        // {
-        //     this.survey = survey;
-        // }
+
         public Survey(List<Question> questions, string name)
         {
-            this.Questions = questions;
+            this.questions = questions;
             this.Name = name;
         }
 
 
-        /* TODO
-        * Lägga till metoder som passar här.  
-        *
-        *
-        */
-        internal ScaleQuestion CreateScaleQuestion(string inputQuestion)
+        public void AddScaleQuestion(string nameOfQuestion)
         {
-            ScaleQuestion scaleQuestion = new ScaleQuestion(inputQuestion);
-
-            return scaleQuestion;
+            Question question = new ScaleQuestion(nameOfQuestion);
+            questions.Add(question);
         }
 
-        internal YesNoQuestion CreateYesNoQuestion(string inputQuestion)
+        public void AddYesNoQuestion(string nameOfQuestion)
         {
-            YesNoQuestion yesNoQuestion = new YesNoQuestion(inputQuestion);
-
-            return yesNoQuestion;
+            Question question = new YesNoQuestion(nameOfQuestion);
+            questions.Add(question);
         }
-        public List<Question> MakeSampleList()
+
+       
+
+        public List<Question> GetListOfQuestions()
         {
-           List<Question> SampleSurvey = new List<Question>();
-            SampleSurvey.Add(CreateScaleQuestion("Hur bra är röd på en skala 1-5"));
-            SampleSurvey.Add(CreateScaleQuestion("Hur bra är grön på en skala 1-5"));
-            SampleSurvey.Add(CreateScaleQuestion("Hur bra är gul på en skala 1-5"));
-            return SampleSurvey;
-            
+            List<Question> tempListOfQuestions = new List<Question>();
+            foreach (Question q in questions)
+            {
+               tempListOfQuestions.Add(q);
+            }
+            return tempListOfQuestions;
         }
     }
 }

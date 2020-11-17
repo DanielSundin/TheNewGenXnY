@@ -9,7 +9,7 @@ namespace SSCEUPClassLibrary
         }
         public override string ToString()
         {
-            return Text;
+            return Text + " " +Answer;
         }
       
         public ScaleQuestion(int answer) : base()
