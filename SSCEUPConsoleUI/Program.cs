@@ -11,11 +11,15 @@ namespace SSCEUP
         public string currentuser = null;
         static void Main(string[] args)
         {
+
             RunLogin();
         }
 
         private static void RunLogin()
         {
+            SurveyManager surveyManager = new SurveyManager();
+
+            
             LoginAuthentication loginauth = new LoginAuthentication();
             loginauth.AddNewUser("ADMIN", "qwerty", true); // Hårdkodade användare
             loginauth.AddNewUser("TEST", "test"); // Hårdkodade användare
@@ -47,21 +51,22 @@ namespace SSCEUP
                 {
                     if (loginauth.IsAdmin(inputName, inputPass) == true)
                     {
-                        RunAdminMode();
+                        RunAdminMode(surveyManager);
                     }
                     else
                     {
-                        RunUserMode();
+                        RunUserMode(surveyManager);
 
                     }
                 }
             }
         }
 
-        private static void RunUserMode()
+        private static void RunUserMode(SurveyManager surveyManager)
         {
             while (true)
             {
+
                 // User Menu
                 System.Console.WriteLine("\tOptions\n[D]o Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
@@ -70,7 +75,7 @@ namespace SSCEUP
                     case "D":
                         {
                             Console.Clear();
-                            DoSurvey();
+                            DoSurvey(surveyManager);
                             break;
                         }
                     case "Q":
@@ -87,7 +92,7 @@ namespace SSCEUP
             }
         }
 
-        private static void RunAdminMode()
+        private static void RunAdminMode(SurveyManager surveyManager)
         {
             while (true)
             {
@@ -97,33 +102,35 @@ namespace SSCEUP
                 switch (input)
                 {
                     case "A":
-                        {
                             Console.Clear();
-                            DisplaySurveyMenu();
+                            DisplaySurveyMenu(surveyManager);
 
                             break;
-                        }
-                    case "D": DoSurvey(); break;
+                    case "D": 
+                            DoSurvey(surveyManager); 
+                            break;
 
                     case "Q":
-                        {
                             Environment.Exit(0);
                             break;
-                        }
                 }
             }
         }
-        private static void DoSurvey()
+        private static void DoSurvey(SurveyManager surveyManager)
         {
             // Survey samplesurvey = new Survey();
 
-            SurveyManager surveyManager = new SurveyManager();
+            if(surveyManager.listOfSurveys.Count == 0)
+            {
+                return;
+            }
 
             foreach (Survey survey in surveyManager.listOfSurveys)
             {
                 System.Console.WriteLine(survey.Name);
-        
-           
+                System.Console.WriteLine();
+            }
+
 
             while (true)
             {
@@ -147,7 +154,7 @@ namespace SSCEUP
                                     break;
                                 }
                             case "N":
-                                {   
+                                {
                                     qYesNo.Answer = false;
                                     break;
                                 }
@@ -180,10 +187,8 @@ namespace SSCEUP
         }
 
 
-
-        pub static void DisplaySurveyMenu()
+        public static void DisplaySurveyMenu(SurveyManager surveyManager)
         {
-            SurveyManager surveyManager = new SurveyManager();
             while (true)
             {
                 //   Console.WriteLine("What kind of Answer do you want?");
