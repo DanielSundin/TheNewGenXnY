@@ -22,9 +22,12 @@ namespace SSCEUPClassLibrary
         {
            List<Survey> allSurveys = new List <Survey>(db.GetSurveysFromDB());
            return allSurveys;
-          
         }
 
+        public int GetSurveyId(Survey title)
+        {
+            return 1; //tempreturn tills metod är klar
+        }
 
 
 

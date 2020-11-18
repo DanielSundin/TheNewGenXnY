@@ -9,6 +9,7 @@ namespace SSCEUPClassLibrary
 
         public int Id { get; set; }
         public string Title { get; set; }
+        public string SurveyCode { get; set; }
 
         public Survey()
         {

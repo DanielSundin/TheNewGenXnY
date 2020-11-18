@@ -5,6 +5,7 @@ namespace SSCEUPClassLibrary
 {
     public class LoginAuthentication
     {
+        DBhandler dbHandler = new DBhandler("Server=40.85.84.155;Database=OOPGroup4;User=Student22;Password=zombie-virus@2020;");
         private List<User> listOfUserInfo = new List<User>();
 
         public void AddNewUser(string userName, string userPassword)  //behövs?
@@ -20,30 +21,35 @@ namespace SSCEUPClassLibrary
             listOfUserInfo.Add(user);
         }
 
-        public bool CheckLoginInfo(string inputName, string inputPass)
+        public int CheckLoginInfo(string inputName, string inputPass)
         {
-            foreach (var user in listOfUserInfo)
+            User loginUser = (User)dbHandler.GetUser(inputName,inputPass);
+            if (inputName == loginUser.UserName && inputPass == loginUser.Password)
             {
-                if (inputName == user.UserName && inputPass == user.Password)
-                {
-                    return true;
-                }
+                return 2;
             }
-            return false;
+            else if (inputName == loginUser.UserName && inputPass == loginUser.Password && loginUser.IsAdmin == true)
+            {
+                return 3;
+            }
+            // else if(inputName != loginUser.UserName)             // ifall att user inte hittas i databasen
+            // {                                                    // kan man få möjligheten att skapa en ny användare 
+            //    
+            // return 4;         =>  WouldYouLikeToCreateNewUser();
+            // }
+            return 1;
         }
 
-        // returnera object User, returnera enum ? Permission typ
 
-        public bool IsAdmin(string inputName,string inputPass)
-        {
-            foreach (var user in listOfUserInfo)
-            {
-                if (inputName == user.UserName && inputPass == user.Password && user.IsAdmin == true)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+
+        // public bool IsAdmin(string inputName, string inputPass)
+        // {
+        //     User loginUser = (User)dbHandler.GetUser(inputName, inputPass);
+        //     if (loginUser.IsAdmin == true)
+        //     {
+        //         return true;
+        //     }
+        //     return false;
+        // }
     }
 }

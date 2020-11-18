@@ -17,8 +17,8 @@ namespace SSCEUP
         {
             LoginAuthentication loginauth = new LoginAuthentication();
             SurveyManager surveyManager = new SurveyManager();
-            loginauth.AddNewUser("ADMIN", "qwerty", true); // Hårdkodade användare
-            loginauth.AddNewUser("TEST", "test"); // Hårdkodade användare
+            //loginauth.AddNewUser("ADMIN", "qwerty", true); // Hårdkodade användare
+            //loginauth.AddNewUser("TEST", "test"); // Hårdkodade användare
             Console.ForegroundColor = ConsoleColor.Green;
             System.Console.WriteLine("\nLOGIN PROMPT\n");
             Console.ResetColor();
@@ -26,11 +26,13 @@ namespace SSCEUP
             for (int loginAttempts = 1; loginAttempts <= 3; loginAttempts++)
             {
                 System.Console.WriteLine("Enter Username");
-                string inputName = Console.ReadLine().ToUpper();
+                string inputName = Console.ReadLine().ToLower();
                 System.Console.WriteLine("Enter Password");
-                string inputPass = Console.ReadLine();
+                string inputPass = Console.ReadLine().ToLower();
+                loginauth.CheckLoginInfo(inputName, inputPass);
 
-                if (loginauth.CheckLoginInfo(inputName, inputPass) == false)
+
+                if (loginauth.CheckLoginInfo(inputName, inputPass) == 1)
                 {
                     System.Console.WriteLine("Username or Password was incorrect");
                     if (loginAttempts >= 3)
@@ -42,18 +44,13 @@ namespace SSCEUP
                     }
 
                 }
-                else if (loginauth.CheckLoginInfo(inputName, inputPass) == true)
+                else if (loginauth.CheckLoginInfo(inputName, inputPass) == 2)
                 {
-                    if (loginauth.IsAdmin(inputName, inputPass) == true)
-                    {
-
-                        RunAdminMode(surveyManager);
-                    }
-                    else
-                    {
-                        RunUserMode(surveyManager);
-
-                    }
+                    RunUserMode(surveyManager);
+                }
+                else if (loginauth.CheckLoginInfo(inputName, inputPass) == 3)
+                {
+                    RunAdminMode(surveyManager);
                 }
             }
         }
@@ -105,7 +102,7 @@ namespace SSCEUP
                     case "D":
                         {
                             Console.Clear();
-                            DoSurvey(surveyManager); 
+                            DoSurvey(surveyManager);
                             break;
                         }
                     case "Q":
@@ -121,8 +118,8 @@ namespace SSCEUP
             Console.Clear();
             foreach (var item in surveyManager.GetAllSurveys())
             {
-                System.Console.WriteLine(item.Title);  
-            }  
+                System.Console.WriteLine(item.Title);
+            }
 
             System.Console.WriteLine("Which one do you want to do ?");
             string iwannadothissurvey = Console.ReadLine();
@@ -183,11 +180,11 @@ namespace SSCEUP
             Console.WriteLine("What do you want to name the survey?");
             string surveyName = Console.ReadLine();
             surveyManager.SaveSurveyName(surveyName);
+            List<Question> questions = new List<Question>();
 
             bool isDone = false;
             while (isDone == false)
             {
-                List<Question> questions = new List<Question>();
                 Console.WriteLine("Question?");
                 string input = Console.ReadLine();
                 Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");

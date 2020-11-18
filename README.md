@@ -13,3 +13,54 @@
 * Svara på survey
 * lista med färdig survey
 * Dapper - Skicka in, ta bort
+
+               if (loginauth.CheckLoginInfo(inputName, inputPass) == 1)
+                {
+                    System.Console.WriteLine("Username or Password was incorrect");
+                    if (loginAttempts >= 3)
+                    {
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        System.Console.WriteLine("Too many attempts, try again later.");
+                        Environment.Exit(0);
+                    }
+
+                }
+                else if (loginauth.CheckLoginInfo(inputName, inputPass) == 2)
+                {
+                    RunUserMode(surveyManager);
+                }
+                else if (loginauth.CheckLoginInfo(inputName, inputPass) == 3)
+                {
+
+                    RunAdminMode(surveyManager);
+                }
+
+
+            if (loginauth.CheckLoginInfo(inputName, inputPass) == 1)
+                {
+                    System.Console.WriteLine("Username or Password was incorrect");
+                    if (loginAttempts >= 3)
+                    {
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        System.Console.WriteLine("Too many attempts, try again later.");
+                        Environment.Exit(0);
+                    }
+
+                }
+                
+                else if (loginauth.CheckLoginInfo(inputName, inputPass) == true)
+                {
+                    if (loginauth.IsAdmin(inputName, inputPass) == true)
+                    {
+
+                        RunAdminMode(surveyManager);
+                    }
+                    else
+                    {
+                        RunUserMode(surveyManager);
+                    }
+                }
+            }
+     
