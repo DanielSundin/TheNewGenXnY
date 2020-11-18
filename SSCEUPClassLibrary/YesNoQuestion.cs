@@ -5,7 +5,7 @@ namespace SSCEUPClassLibrary
         public bool Answer { get; set; }
         public YesNoQuestion(string text) : base(text)
         {
-            Text = text;
+           
         }
 
         public YesNoQuestion(bool answer) : base()
@@ -13,9 +13,6 @@ namespace SSCEUPClassLibrary
             this.Answer = answer;
         }
 
-        public override string ToString()
-                {
-                    return Text + " " +Answer;
-                }
+     
     }
 }

@@ -5,12 +5,9 @@ namespace SSCEUPClassLibrary
         public int Answer { get; set; }
         public ScaleQuestion(string text) : base(text)
         {
-            this.Text = text;
+           
         }
-        public override string ToString()
-        {
-            return Text + " " +Answer;
-        }
+    
       
         public ScaleQuestion(int answer) : base()
         {

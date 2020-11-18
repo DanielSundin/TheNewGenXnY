@@ -1,14 +1,13 @@
 ﻿using System;
-using SSCEUPClassLibrary;
-using System.Threading;
 using System.Collections.Generic;
+using SSCEUPClassLibrary;
+
 
 namespace SSCEUP
 {
     class Program
     {
 
-        public string currentuser = null;
         static void Main(string[] args)
         {
             RunLogin();
@@ -17,13 +16,13 @@ namespace SSCEUP
         private static void RunLogin()
         {
             LoginAuthentication loginauth = new LoginAuthentication();
+            SurveyManager surveyManager = new SurveyManager();
             loginauth.AddNewUser("ADMIN", "qwerty", true); // Hårdkodade användare
             loginauth.AddNewUser("TEST", "test"); // Hårdkodade användare
             Console.ForegroundColor = ConsoleColor.Green;
             System.Console.WriteLine("\nLOGIN PROMPT\n");
             Console.ResetColor();
 
-            //Kanske försöka lyfta ut Loginförsök till egen metod. 
             for (int loginAttempts = 1; loginAttempts <= 3; loginAttempts++)
             {
                 System.Console.WriteLine("Enter Username");
@@ -47,18 +46,19 @@ namespace SSCEUP
                 {
                     if (loginauth.IsAdmin(inputName, inputPass) == true)
                     {
-                        RunAdminMode();
+
+                        RunAdminMode(surveyManager);
                     }
                     else
                     {
-                        RunUserMode();
+                        RunUserMode(surveyManager);
 
                     }
                 }
             }
         }
 
-        private static void RunUserMode()
+        private static void RunUserMode(SurveyManager surveyManager)
         {
             while (true)
             {
@@ -70,7 +70,7 @@ namespace SSCEUP
                     case "D":
                         {
                             Console.Clear();
-                            DoSurvey();
+                            DoSurvey(surveyManager);
                             break;
                         }
                     case "Q":
@@ -87,7 +87,7 @@ namespace SSCEUP
             }
         }
 
-        private static void RunAdminMode()
+        private static void RunAdminMode(SurveyManager surveyManager)
         {
             while (true)
             {
@@ -99,12 +99,15 @@ namespace SSCEUP
                     case "A":
                         {
                             Console.Clear();
-                            DisplaySurveyMenu();
-
+                            CreateSurvey(surveyManager);
                             break;
                         }
-                    case "D": DoSurvey(); break;
-
+                    case "D":
+                        {
+                            Console.Clear();
+                            DoSurvey(surveyManager); 
+                            break;
+                        }
                     case "Q":
                         {
                             Environment.Exit(0);
@@ -113,144 +116,108 @@ namespace SSCEUP
                 }
             }
         }
-        private static void DoSurvey()
+        private static void DoSurvey(SurveyManager surveyManager)
         {
-            // Survey samplesurvey = new Survey();
-
-            SurveyManager surveyManager = new SurveyManager();
-
-            foreach (Survey survey in surveyManager.listOfSurveys)
+            Console.Clear();
+            foreach (var item in surveyManager.GetAllSurveys())
             {
-                System.Console.WriteLine(survey.Name);
-        
-           
+                System.Console.WriteLine(item.Title);  
+            }  
 
-            while (true)
-            {
-                // foreach (Question q in samplesurvey.MakeSampleList())
-                foreach (Question q in surveyManager.GetQuestions())
-                {
-                    Console.WriteLine(q.ToString());
+            System.Console.WriteLine("Which one do you want to do ?");
+            string iwannadothissurvey = Console.ReadLine();
+            //      while (true)
+            //     {
+            //         // if (q.GetType() == typeof(YesNoQuestion))
+            //         if (q is YesNoQuestion)
+            //         {
+            //             var qYesNo = (YesNoQuestion)q;
+            //             //qYesNo.
+            //             Console.WriteLine("Y/N");
+            //             string input = Console.ReadLine().ToUpper().Trim();
+            //             switch (input)
+            //             {
+            //                 case "Y":
+            //                     {
+            //                         qYesNo.Answer = true;
+            //                         break;
+            //                     }
+            //                 case "N":
+            //                     {
+            //                         qYesNo.Answer = false;
+            //                         break;
+            //                     }
+            //                 default:
+            //                     {
+            //                         Console.WriteLine("Choose Y or N.");
+            //                         return;
+            //                     }
+            //             }
+            //         }
+            //         else
+            //         {
+            //             Console.WriteLine("(1-5)");
+            //             var qScale = (ScaleQuestion)q;
+            //             int input = Convert.ToInt32(Console.ReadLine());        //lägg till try/catch
+            //             if (input > 0 && input < 6)
+            //             {
+            //                 System.Console.WriteLine(" här är skalan 1-5!!!!");
+            //                 System.Console.WriteLine(q.GetType().ToString());
+            //                 qScale.Answer = input;
+            //             }
+            //             else
+            //             {
+            //                 Console.WriteLine("Answer out of range!");
+            //                 return;
+            //             }
+            //         }
 
-                    // if (q.GetType() == typeof(YesNoQuestion))
-                    if (q is YesNoQuestion)
-                    {
-                        var qYesNo = (YesNoQuestion)q;
-                        //qYesNo.
-                        Console.WriteLine("Y/N");
-                        string input = Console.ReadLine().ToUpper().Trim();
-                        switch (input)
-                        {
-                            case "Y":
-                                {
-                                    qYesNo.Answer = true;
-                                    break;
-                                }
-                            case "N":
-                                {   
-                                    qYesNo.Answer = false;
-                                    break;
-                                }
-                            default:
-                                {
-                                    Console.WriteLine("Choose Y or N.");
-                                    return;
-                                }
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("(1-5)");
-                        var qScale = (ScaleQuestion)q;
-                        int input = Convert.ToInt32(Console.ReadLine());        //lägg till try/catch
-                        if (input > 0 && input < 6)
-                        {
-                            System.Console.WriteLine(" här är skalan 1-5!!!!");
-                            System.Console.WriteLine(q.GetType().ToString());
-                            qScale.Answer = input;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Answer out of range!");
-                            return;
-                        }
-                    }
-                }
-            }
+            //     }
         }
 
 
 
-        pub static void DisplaySurveyMenu()
+        public static void CreateSurvey(SurveyManager surveyManager)
         {
-            SurveyManager surveyManager = new SurveyManager();
-            while (true)
+
+            Console.WriteLine("What do you want to name the survey?");
+            string surveyName = Console.ReadLine();
+            surveyManager.SaveSurveyName(surveyName);
+
+            bool isDone = false;
+            while (isDone == false)
             {
-                //   Console.WriteLine("What kind of Answer do you want?");
-                //   Console.WriteLine("[Y]es or No Question\n[S]caleQuestion");
-                //    string questionChoice = Console.ReadLine().ToUpper().Trim();     
+                List<Question> questions = new List<Question>();
+                Console.WriteLine("Question?");
+                string input = Console.ReadLine();
+                Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
+                string choice = Console.ReadLine().ToUpper().Trim();
 
-
-                //   switch (questionChoice)
-                //   {
-                // case "S":
-                // List<Question> listofquestion = new List<Question>();
-
-                Console.WriteLine("What do you want to name the survey?");
-                string surveyName = Console.ReadLine();
-
-                bool isDone = false;
-                while (isDone == false)
+                switch (choice)
                 {
-                    //Question test = new ScaleQuestion("hur många bultar har ölandsbron");
-                    Console.WriteLine("Question?");
-                    string input = Console.ReadLine();
-                    Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
-                    string ynorscalechoice = Console.ReadLine().ToUpper().Trim();
-
-                    switch (ynorscalechoice)
-                    {
-                        case "Y":
-                            surveyManager.TypeOfQuestion(input, "YesNo");
-                            //listofquestion.Add(new YesNoQuestion(input));
-                            break;
-                        case "N":
-                            surveyManager.TypeOfQuestion(input, "Scale");
-                            // listofquestion.Add(new ScaleQuestion(input));
-                            break;
-                        default:
-                            Console.WriteLine("Sorry, (Y)es or (N)o please");
-                            return;
-                    }
-
-                    Console.WriteLine("Add more Questions? Y/N");
-                    string continueInput = Console.ReadLine().ToUpper().Trim();
-                    if (continueInput == "N")
-                    {
-                        isDone = true;
-                        //foreachloop bara för att skriva ut alla frågor som skapats
-                        foreach (var q in surveyManager.GetQuestions())
-                        {
-                            Console.WriteLine(q.ToString());
-                        }
-                    }
-                    else if (continueInput == "Y")
-                    {
-                        isDone = false;
-                    }
+                    case "Y":
+                        questions.Add(new YesNoQuestion(input));
+                        break;
+                    case "N":
+                        questions.Add(new ScaleQuestion(input));
+                        break;
+                    default:
+                        Console.WriteLine("Sorry m8, (Y)es or (N)o only..please");
+                        return;
                 }
-                surveyManager.CreateNewSurvey(surveyManager.GetQuestions(), surveyName);
-                break;
-                // break;
 
-                // case "Y":
-
-                //     break;
-
-                // default:
-                // break;
+                Console.WriteLine("Add more Questions? Y/N");
+                string continueInput = Console.ReadLine().ToUpper().Trim();
+                if (continueInput == "N")
+                {
+                    isDone = true;
+                    surveyManager.SavetoDB(questions);
+                }
+                else if (continueInput == "Y")
+                {
+                    isDone = false;
+                }
             }
-
         }
     }
 }
