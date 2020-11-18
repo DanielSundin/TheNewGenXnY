@@ -8,6 +8,7 @@ namespace SSCEUPClassLibrary
 
        
         Survey survey = new Survey();
+
         //public enum QuestionType{Scale,YesNo}
 
         // public QuestionType questiontype;

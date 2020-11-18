@@ -12,7 +12,10 @@ namespace SSCEUPClassLibrary
         public int Id { get; set; }
         public string Name { get; set; }
 
-
+        public Survey()
+        {
+            
+        }
         public Survey(List<Question> questions, string name)
         {
             this.questions = questions;
