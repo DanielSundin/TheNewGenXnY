@@ -16,20 +16,12 @@ namespace SSCEUPClassLibrary
             this.connectionString = connectionString;
         }
 
-        public IEnumerable<User> GetUser(string userName,string userPassword)
+        
+        public IEnumerable<User> GetUser(string userName,string userPass)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<User>("SELECT UserName FROM USER WHERE UserName = @userName;" , new {UserName = userName});
-                                                                                                                
-
-            // Execute a query and map the first result to a dynamic list, and throws an exception if 
-            //there is not exactly one element in the sequence.
-            // string sql = "SELECT * FROM OrderDetails WHERE OrderDetailID = @OrderDetailID;";
-
-            //   using (var connection = new SqlConnection(FiddleHelper.GetConnectionStringSqlServerW3Schools()))
-            //               {	
-            //           var orderDetail = connection.QuerySingle(sql, new {OrderDetailID = 1});       
+                return connection.Query<User>("SELECT UserName,UserPass,IsAdmin FROM [USER] WHERE UserName = @userName AND UserPass = @userPass", new { UserName = userName, UserPass = userPass}); 
             }
         }
         internal IEnumerable<Survey> GetSurveysFromDB()
@@ -37,8 +29,7 @@ namespace SSCEUPClassLibrary
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 var output = connection.Query<Survey>("SELECT * FROM SURVEY").ToList();
-                return output;
-                
+                return output;                
             }
         }
 
