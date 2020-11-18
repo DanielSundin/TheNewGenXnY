@@ -31,55 +31,5 @@ namespace SSCEUPClassLibrary
         {
             return $"{Id} : {Title}";
         }
-
-
-        // public void AddScaleQuestion(string nameOfQuestion)
-        // {
-        //     Question question = new ScaleQuestion(nameOfQuestion);
-        //     questions.Add(question);
-        // }
-
-        // public void AddYesNoQuestion(string nameOfQuestion)
-        // {
-        //     Question question = new YesNoQuestion(nameOfQuestion);
-        //     questions.Add(question);
-        // }
-
-
-
-        // public List<Question> GetListOfQuestions()
-        // {
-        //     List<Question> tempListOfQuestions = new List<Question>();
-        //     foreach (Question q in questions)
-        //     {
-        //        tempListOfQuestions.Add(q);
-        //     }
-        //     return tempListOfQuestions;
-        //}
-
-
-        // public void AddScaleQuestion(string nameOfQuestion)
-        // {
-        //     Question question = new ScaleQuestion(nameOfQuestion);
-        //     questions.Add(question);
-        // }
-
-        // public void AddYesNoQuestion(string nameOfQuestion)
-        // {
-        //     Question question = new YesNoQuestion(nameOfQuestion);
-        //     questions.Add(question);
-        // }
-
-       
-
-        // public List<Question> GetListOfQuestions()
-        // {
-        //     List<Question> tempListOfQuestions = new List<Question>();
-        //     foreach (Question q in questions)
-        //     {
-        //        tempListOfQuestions.Add(q);
-        //     }
-        //     return tempListOfQuestions;
-        //}
     }
 }

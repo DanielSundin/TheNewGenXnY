@@ -17,8 +17,6 @@ namespace SSCEUP
         {
             LoginAuthentication loginauth = new LoginAuthentication();
             SurveyManager surveyManager = new SurveyManager();
-            //loginauth.AddNewUser("ADMIN", "qwerty", true); // Hårdkodade användare
-            //loginauth.AddNewUser("TEST", "test"); // Hårdkodade användare
             Console.ForegroundColor = ConsoleColor.Green;
             System.Console.WriteLine("\nLOGIN PROMPT\n");
             Console.ResetColor();
