@@ -27,8 +27,22 @@ namespace SSCEUP
                 string inputName = Console.ReadLine().ToLower();
                 System.Console.WriteLine("Enter Password");
                 string inputPass = Console.ReadLine().ToLower();
-                loginauth.CheckLoginInfo(inputName, inputPass);
-
+                try
+                {
+                    loginauth.CheckLoginInfo(inputName, inputPass);
+                }
+                catch(IndexOutOfRangeException e)
+                {
+                    Console.WriteLine("The input parameter(username or password) was really strange, and therefore error."+ e);
+                }
+                catch(ArgumentNullException e)
+                {
+                    Console.WriteLine($"You didn't fill in any information! ({e})");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Something went wrong.."+e);
+                }
 
                 if (loginauth.CheckLoginInfo(inputName, inputPass) == 1)
                 {
@@ -119,7 +133,7 @@ namespace SSCEUP
                 System.Console.WriteLine(item.Title);
             }
 
-            System.Console.WriteLine("Which one do you want to do ?");
+            System.Console.WriteLine("\nWhich one do you want to do ?");
             string iwannadothissurvey = Console.ReadLine();
             //      while (true)
             //     {
