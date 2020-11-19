@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SSCEUPClassLibrary
 {
@@ -24,9 +25,12 @@ namespace SSCEUPClassLibrary
            return allSurveys;
         }
 
-        public int GetSurveyId(Survey title)
+        public int GetSurveyId(string title)
         {
-            return 1; //tempreturn tills metod är klar
+            int surveyID = db.GetSurveyIdFromDB(title);
+            
+            return surveyID;
+          //  return temp.SurveyId; //tempreturn tills metod är klar
         }
 
 

@@ -7,7 +7,7 @@ namespace SSCEUPClassLibrary
     {
         //private List<Question> questions = new List<Question>();
 
-        public int Id { get; set; }
+        public int SurveyId { get; set; }
         public string Title { get; set; }
         public string SurveyCode { get; set; }
 
@@ -21,15 +21,15 @@ namespace SSCEUPClassLibrary
             this.Title = title;
         }
 
-        public Survey(int id,string title)
+        public Survey(int surveyId,string title)
         {
-            this.Id=id;
+            this.SurveyId=surveyId;
             this.Title=title;
         }
 
-        public override string ToString()
-        {
-            return $"{Id} : {Title}";
-        }
+        // public override string ToString()          //kolla om behövs
+        // {
+        //     return $"{SurveyId} : {Title}";
+        // }
     }
 }
