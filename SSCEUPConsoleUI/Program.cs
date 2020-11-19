@@ -43,6 +43,12 @@ namespace SSCEUP
                     Console.ReadKey();
                     Console.WriteLine(e);
                 }
+                catch (System.Data.SqlClient.SqlException e)
+                {
+                    Console.WriteLine("There is something off with the database. I can't really see what from here..");
+                    Console.ReadKey();
+                    Console.WriteLine(e);
+                }
                 catch (Exception e)
                 {
                     Console.WriteLine("Something went wrong...press key to read error message");
