@@ -27,8 +27,34 @@ namespace SSCEUP
                 string inputName = Console.ReadLine().ToLower();
                 System.Console.WriteLine("Enter Password");
                 string inputPass = Console.ReadLine().ToLower();
-                loginauth.CheckLoginInfo(inputName, inputPass);
-
+                try
+                {
+                    loginauth.CheckLoginInfo(inputName, inputPass);
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    Console.WriteLine("The input parameter(username or password) was really strange, and therefore error." + e);
+                    Console.ReadKey();
+                    Console.WriteLine(e);
+                }
+                catch (ArgumentNullException e)
+                {
+                    Console.WriteLine($"You didn't fill in any information!");
+                    Console.ReadKey();
+                    Console.WriteLine(e);
+                }
+                catch (System.Data.SqlClient.SqlException e)
+                {
+                    Console.WriteLine("There is something off with the database. I can't really see what from here..");
+                    Console.ReadKey();
+                    Console.WriteLine(e);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Something went wrong...press key to read error message");
+                    Console.ReadKey();
+                    Console.WriteLine(e);
+                }
 
                 if (loginauth.CheckLoginInfo(inputName, inputPass) == 1)
                 {
@@ -108,6 +134,10 @@ namespace SSCEUP
                             Environment.Exit(0);
                             break;
                         }
+                    default:
+                        Console.WriteLine("Returning you to menu - try choosing a valid menu option");
+                        RunAdminMode(surveyManager);
+                        return;
                 }
             }
         }
@@ -141,6 +171,7 @@ namespace SSCEUP
             }
 
 
+
            
 
            
@@ -149,7 +180,6 @@ namespace SSCEUP
             // {
             //     System.Console.WriteLine(item.Title);
             // }
-
             //      while (true)
             //     {
             //         // if (q.GetType() == typeof(YesNoQuestion))
@@ -205,10 +235,33 @@ namespace SSCEUP
         {
 
             Console.WriteLine("What do you want to name the survey?");
+
             string surveyName = Console.ReadLine();
+
             Console.WriteLine("Survey Code?");
             string surveyCode = Console.ReadLine();
-            surveyManager.SaveSurveyName(surveyName, surveyCode);
+            try
+            {
+                surveyManager.SaveSurveyName(surveyName, surveyCode);
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Console.WriteLine("The input parameter was really strange, and therefore error." + e);
+                Console.ReadKey();
+                Console.WriteLine(e);
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine($"You didn't fill in any information!");
+                Console.ReadKey();
+                Console.WriteLine(e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong...press key to read error message");
+                Console.ReadKey();
+                Console.WriteLine(e);
+            }
             List<Question> questions = new List<Question>();
             int surveyid = surveyManager.GetSurveyId(surveyName);
 
@@ -244,6 +297,12 @@ namespace SSCEUP
                 else if (continueInput == "Y")
                 {
                     isDone = false;
+                }
+                else
+                {
+                    Console.WriteLine("I guess that´s a no... better start over!");
+                    isDone = true;
+                    questions.Clear();
                 }
             }
         }
