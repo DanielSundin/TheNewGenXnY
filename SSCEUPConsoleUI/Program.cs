@@ -265,9 +265,9 @@ namespace SSCEUP
                 }
                 else
                 {
-                    Console.WriteLine("I guess that´s a no...");
+                    Console.WriteLine("I guess that´s a no... better start over!");
                     isDone = true;
-                    surveyManager.SavetoDB(questions);
+                    questions.Clear();
                 }
             }
         }
