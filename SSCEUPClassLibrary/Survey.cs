@@ -16,9 +16,10 @@ namespace SSCEUPClassLibrary
 
         }
 
-        public Survey(string title)
+        public Survey(string title, string surveyCode)
         {
             this.Title = title;
+            this.SurveyCode = surveyCode;
         }
 
         public Survey(int surveyId,string title)

@@ -13,9 +13,9 @@ namespace SSCEUPClassLibrary
             db.InsertIntoQuestion(list);
         }
 
-        public void SaveSurveyName(string title)
+        public void SaveSurveyName(string title, string surveyCode)
         {
-            Survey survey = new Survey(title);
+            Survey survey = new Survey(title, surveyCode);
             db.InsertIntoSurvey(survey);
         }
 
