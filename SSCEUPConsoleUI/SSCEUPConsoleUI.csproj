@@ -4,6 +4,10 @@
     <ProjectReference Include="..\SSCEUPClassLibrary\SSCEUPClassLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+  </ItemGroup>
+
  
   <PropertyGroup>
     <OutputType>Exe</OutputType>

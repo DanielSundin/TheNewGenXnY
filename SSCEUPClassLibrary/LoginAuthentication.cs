@@ -9,7 +9,7 @@ namespace SSCEUPClassLibrary
         private List<User> listOfUserInfo = new List<User>();
 
         #region Code to add user if needed
-            
+
         // public void AddNewUser(string userName, string userPassword)  
         // {
         //     User user = new User(userName, userPassword);
@@ -19,10 +19,10 @@ namespace SSCEUPClassLibrary
 
         public int CheckLoginInfo(string inputName, string inputPass)
         {
-            User loginUser = dbHandler.GetUser(inputName,inputPass).FirstOrDefault();
+            User loginUser = dbHandler.GetUser(inputName, inputPass).FirstOrDefault();
             if (inputName == loginUser.UserName && inputPass == loginUser.UserPass && loginUser.IsAdmin == true)
             {
-                return 3;           
+                return 3;
             }
             else if (inputName == loginUser.UserName && inputPass == loginUser.UserPass && loginUser.IsAdmin == false)
             {

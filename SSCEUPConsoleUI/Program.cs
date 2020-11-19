@@ -179,7 +179,8 @@ namespace SSCEUP
             string surveyName = Console.ReadLine();
             surveyManager.SaveSurveyName(surveyName);
             List<Question> questions = new List<Question>();
-
+            int surveyid = surveyManager.GetSurveyId(surveyName);
+         
             bool isDone = false;
             while (isDone == false)
             {
@@ -191,10 +192,11 @@ namespace SSCEUP
                 switch (choice)
                 {
                     case "Y":
-                        questions.Add(new YesNoQuestion(input));
+                        // kör samma metod get surveyi (SendIDtoDB(surveyid))
+                        questions.Add(new YesNoQuestion(surveyid, true, input));
                         break;
                     case "N":
-                        questions.Add(new ScaleQuestion(input));
+                        questions.Add(new ScaleQuestion(surveyid, false, input));
                         break;
                     default:
                         Console.WriteLine("Sorry m8, (Y)es or (N)o only..please");
