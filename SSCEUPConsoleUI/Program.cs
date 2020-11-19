@@ -177,7 +177,9 @@ namespace SSCEUP
 
             Console.WriteLine("What do you want to name the survey?");
             string surveyName = Console.ReadLine();
-            surveyManager.SaveSurveyName(surveyName);
+            Console.WriteLine("Survey Code?");
+            string surveyCode = Console.ReadLine();
+            surveyManager.SaveSurveyName(surveyName, surveyCode);
             List<Question> questions = new List<Question>();
             int surveyid = surveyManager.GetSurveyId(surveyName);
          

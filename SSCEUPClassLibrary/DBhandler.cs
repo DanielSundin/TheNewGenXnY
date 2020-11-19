@@ -34,11 +34,11 @@ namespace SSCEUPClassLibrary
             }
         }
 
-        internal void InsertIntoSurvey(Survey title)
+        internal void InsertIntoSurvey(Survey survey)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Execute("INSERT INTO SURVEY (Title) values (@Title)", title);
+                connection.Execute("INSERT INTO SURVEY (Title, SurveyCode) values (@Title, @SurveyCode)", survey);
             }
         }
 
