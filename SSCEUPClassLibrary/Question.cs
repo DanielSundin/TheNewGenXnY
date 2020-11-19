@@ -1,7 +1,8 @@
 namespace SSCEUPClassLibrary
 {
-    public abstract class Question
+    public class Question
     {
+        public int QuestionId { get; set; }
         public int SurveyId { get; set; }
         public bool IsYesNoQuestion { get; set; }
         public string Text { get; set; }

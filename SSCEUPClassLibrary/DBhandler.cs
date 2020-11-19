@@ -18,18 +18,19 @@ namespace SSCEUPClassLibrary
         }
 
 
-        public IEnumerable<User> GetUser(string userName, string userPass)
+        public IEnumerable<User> GetUser(string userName)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<User>("SELECT UserName,UserPass,IsAdmin FROM [USER] WHERE UserName = @userName AND UserPass = @userPass", new { UserName = userName, UserPass = userPass });
+                return connection.Query<User>("SELECT UserName,UserPass,IsAdmin FROM [USER] WHERE UserName = @userName", new { UserName = userName });
             }
         }
-        internal IEnumerable<Survey> GetSurveysFromDB()
+
+        internal IEnumerable<Question> GetSurveyQuestionsFromDB(string surveyCode)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                var output = connection.Query<Survey>("SELECT * FROM SURVEY").ToList();
+                var output = connection.Query<Question>("EXECUTE [dbo].[spGetSurveyQuestions] @FindCode ", new { FindCode = surveyCode}).ToList();
                 return output;
             }
         }
@@ -51,13 +52,13 @@ namespace SSCEUPClassLibrary
             }
         }
 
-        internal Survey GetSurveyCodeFromDB(string surveyCode)
+        internal IEnumerable<Survey> GetSurveyCodeFromDB(string surveyCode)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+
+                return connection.Query<Survey>("SELECT SurveyCode FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode});
                 
-                var output = connection.Query<Survey>("SELECT SurveyCode FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode}).FirstOrDefault();
-                return output;
             }
         }
 

@@ -7,7 +7,7 @@ namespace SSCEUPClassLibrary
     public class SurveyManager
     {
         DBhandler db = new DBhandler("Server=40.85.84.155;Database=OOPGroup4;User=Student22;Password=zombie-virus@2020;");
-        
+
         public void SavetoDB(List<Question> list)
         {
             db.InsertIntoQuestion(list);
@@ -19,72 +19,27 @@ namespace SSCEUPClassLibrary
             db.InsertIntoSurvey(survey);
         }
 
-        public List<Survey> GetAllSurveys()
+        public List<Question> GetSurveyWithQuestions(string surveyCode)
         {
-           List<Survey> allSurveys = new List <Survey>(db.GetSurveysFromDB());
-           return allSurveys;
+            List<Question> allSurveys = new List<Question>(db.GetSurveyQuestionsFromDB(surveyCode));
+            return allSurveys;
         }
 
         public int GetSurveyId(string title)
         {
             int surveyID = db.GetSurveyIdFromDB(title);
-            
+
             return surveyID;
-          //  return temp.SurveyId; //tempreturn tills metod är klar
-        }
-        public Survey GetSurveyCode(string inputSurveyCode)
-        {
-            Survey survey = db.GetSurveyCodeFromDB(inputSurveyCode);
-            
-            return survey;
         }
 
         public bool CheckSurveyCode(string input)
         {
-            Survey survey = GetSurveyCode(input);
-            if(input == survey.SurveyCode)
+            Survey survey = db.GetSurveyCodeFromDB(input).FirstOrDefault();
+            if (survey == null)
             {
-                return true;
+                return false;
             }
-            else if (input != survey.SurveyCode)
-            {
-               return false; 
-            }
-            return false;
+            return true;
         }
-
-
-
-        // public Survey CreateNewSurvey(List<Question> listOfQuestions, string name)
-        // {
-
-        //     // Survey newsurvey = new Survey(listOfQuestions, name);
-        //     // listOfSurveys.Add(newsurvey);
-        //     return;
-
-        // }
-
-        // public List<Survey> GetListOfSurveys()
-        // {
-        //     // vill vara mellan länk till dbRepositoryt så koden här bara hänvisa till metoden i bdraspotoryt
-        //     // lista alla surveys
-        //     List<Survey> tempList = new List<Survey>();
-        //     foreach (Survey survey in listOfSurveys)
-        //     {
-        //         tempList.Add(survey);
-        //     }
-
-        //     return tempList;
-
-        // }
-
-        // public List<Question> GetQuestions()
-        // {
-        //     return survey.GetListOfQuestions();
-        // }  
     }
-
-
-
-
 }
