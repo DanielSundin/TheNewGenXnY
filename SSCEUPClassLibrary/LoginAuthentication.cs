@@ -19,7 +19,7 @@ namespace SSCEUPClassLibrary
 
         public int CheckLoginInfo(string inputName, string inputPass)
         {
-            User loginUser = dbHandler.GetUser(inputName, inputPass).FirstOrDefault();
+            User loginUser = dbHandler.GetUser(inputName).FirstOrDefault();
             if (inputName == loginUser.UserName && inputPass == loginUser.UserPass && loginUser.IsAdmin == true)
             {
                 return 3;
@@ -28,12 +28,17 @@ namespace SSCEUPClassLibrary
             {
                 return 2;
             }
+            else if (inputName != loginUser.UserName || inputPass != loginUser.UserPass)
+            {
+                return 1;
+            }
+            return 4;
             // else if(inputName != loginUser.UserName)             // ifall att user inte hittas i databasen
             // {                                                    // kan man få möjligheten att skapa en ny användare 
             //    
             // return 4;         =>  WouldYouLikeToCreateNewUser();
             // }
-            return 1;
+            
         }
     }
 }

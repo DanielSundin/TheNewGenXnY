@@ -143,14 +143,43 @@ namespace SSCEUP
         }
         private static void DoSurvey(SurveyManager surveyManager)
         {
-            Console.Clear();
-            foreach (var item in surveyManager.GetAllSurveys())
+            string surveyCode = "";
+            bool isCodeNotFound = true;
+            while (isCodeNotFound)
             {
-                System.Console.WriteLine(item.Title);
+                Console.Clear();
+                System.Console.WriteLine("Input given surveycode:");
+                surveyCode = Console.ReadLine();
+                bool exsists = surveyManager.CheckSurveyCode(surveyCode);
+                if (exsists == true)
+                {
+                    isCodeNotFound = false; 
+                }
+                else 
+                {
+                    System.Console.WriteLine("Code not found");
+                    PressEnterToContinue();
+                }
+            }
+            
+            List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
+
+            foreach (var item in ListOfquestions)
+            {
+                System.Console.WriteLine(item.Text);
+                PressEnterToContinue();
             }
 
-            System.Console.WriteLine("\nWhich one do you want to do ?");
-            string iwannadothissurvey = Console.ReadLine();
+
+
+           
+
+           
+               
+            // foreach (var item in surveyManager.GetAllSurveys())
+            // {
+            //     System.Console.WriteLine(item.Title);
+            // }
             //      while (true)
             //     {
             //         // if (q.GetType() == typeof(YesNoQuestion))
@@ -276,6 +305,12 @@ namespace SSCEUP
                     questions.Clear();
                 }
             }
+        }
+
+         private static void PressEnterToContinue()
+        {
+            Console.WriteLine("\nPress ENTER to continue.");
+            Console.ReadLine();
         }
     }
 }
