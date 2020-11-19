@@ -51,13 +51,14 @@ namespace SSCEUPClassLibrary
             }
         }
 
-        // internal IEnumerable<Survey> GetSurveyIdFromDB(string title)
-        // {
-        //     using (SqlConnection connection = new SqlConnection(connectionString))
-        //     {
-        //         return connection.Query<Survey>("SELECT SurveyId FROM SURVEY WHERE title = @Title", new { Title = title });
-        //     }
-        // }
+        internal string GetSurveyCodeFromDB(string surveyCode)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                var output = connection.Query<Survey>("SELECT SurveyCode FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode}).FirstOrDefault();
+                return output.SurveyCode;
+            }
+        }
 
         internal void InsertIntoQuestion(List<Question> questionlist)
         {
