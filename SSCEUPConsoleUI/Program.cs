@@ -31,17 +31,23 @@ namespace SSCEUP
                 {
                     loginauth.CheckLoginInfo(inputName, inputPass);
                 }
-                catch(IndexOutOfRangeException e)
+                catch (IndexOutOfRangeException e)
                 {
-                    Console.WriteLine("The input parameter(username or password) was really strange, and therefore error."+ e);
+                    Console.WriteLine("The input parameter(username or password) was really strange, and therefore error." + e);
+                    Console.ReadKey();
+                    Console.WriteLine(e);
                 }
-                catch(ArgumentNullException e)
+                catch (ArgumentNullException e)
                 {
-                    Console.WriteLine($"You didn't fill in any information! ({e})");
+                    Console.WriteLine($"You didn't fill in any information!");
+                    Console.ReadKey();
+                    Console.WriteLine(e);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Something went wrong.."+e);
+                    Console.WriteLine("Something went wrong...press key to read error message");
+                    Console.ReadKey();
+                    Console.WriteLine(e);
                 }
 
                 if (loginauth.CheckLoginInfo(inputName, inputPass) == 1)
@@ -122,6 +128,10 @@ namespace SSCEUP
                             Environment.Exit(0);
                             break;
                         }
+                    default:
+                        Console.WriteLine("Returning you to menu - try choosing a valid menu option");
+                        RunAdminMode(surveyManager);
+                        return;
                 }
             }
         }
@@ -190,13 +200,36 @@ namespace SSCEUP
         {
 
             Console.WriteLine("What do you want to name the survey?");
+
             string surveyName = Console.ReadLine();
+
             Console.WriteLine("Survey Code?");
             string surveyCode = Console.ReadLine();
-            surveyManager.SaveSurveyName(surveyName, surveyCode);
+            try
+            {
+                surveyManager.SaveSurveyName(surveyName, surveyCode);
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Console.WriteLine("The input parameter was really strange, and therefore error." + e);
+                Console.ReadKey();
+                Console.WriteLine(e);
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine($"You didn't fill in any information!");
+                Console.ReadKey();
+                Console.WriteLine(e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong...press key to read error message");
+                Console.ReadKey();
+                Console.WriteLine(e);
+            }
             List<Question> questions = new List<Question>();
             int surveyid = surveyManager.GetSurveyId(surveyName);
-         
+
             bool isDone = false;
             while (isDone == false)
             {
@@ -229,6 +262,12 @@ namespace SSCEUP
                 else if (continueInput == "Y")
                 {
                     isDone = false;
+                }
+                else
+                {
+                    Console.WriteLine("I guess that´s a no...");
+                    isDone = true;
+                    surveyManager.SavetoDB(questions);
                 }
             }
         }
