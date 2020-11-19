@@ -113,14 +113,29 @@ namespace SSCEUP
         }
         private static void DoSurvey(SurveyManager surveyManager)
         {
-            Console.Clear();
-            foreach (var item in surveyManager.GetAllSurveys())
+            bool isCodeNotFound = true;
+            while (isCodeNotFound)
             {
-                System.Console.WriteLine(item.Title);
+                Console.Clear();
+                System.Console.WriteLine("Input given surveycode:");
+                string input = Console.ReadLine();
+                if (surveyManager.CheckSurveyCode(input))
+                {
+                    isCodeNotFound = false; 
+                }
+                else 
+                {
+                    System.Console.WriteLine("Code not found");
+                }
             }
+            System.Console.WriteLine("du är ute ur loopen");
+            Console.ReadLine();
 
-            System.Console.WriteLine("Which one do you want to do ?");
-            string iwannadothissurvey = Console.ReadLine();
+            // foreach (var item in surveyManager.GetAllSurveys())
+            // {
+            //     System.Console.WriteLine(item.Title);
+            // }
+
             //      while (true)
             //     {
             //         // if (q.GetType() == typeof(YesNoQuestion))
@@ -182,7 +197,7 @@ namespace SSCEUP
             surveyManager.SaveSurveyName(surveyName, surveyCode);
             List<Question> questions = new List<Question>();
             int surveyid = surveyManager.GetSurveyId(surveyName);
-         
+
             bool isDone = false;
             while (isDone == false)
             {

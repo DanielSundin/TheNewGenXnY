@@ -51,12 +51,13 @@ namespace SSCEUPClassLibrary
             }
         }
 
-        internal string GetSurveyCodeFromDB(string surveyCode)
+        internal Survey GetSurveyCodeFromDB(string surveyCode)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                
                 var output = connection.Query<Survey>("SELECT SurveyCode FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode}).FirstOrDefault();
-                return output.SurveyCode;
+                return output;
             }
         }
 

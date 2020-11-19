@@ -32,19 +32,23 @@ namespace SSCEUPClassLibrary
             return surveyID;
           //  return temp.SurveyId; //tempreturn tills metod är klar
         }
-        public string GetSurveyCode(string inputSurveyCode)
+        public Survey GetSurveyCode(string inputSurveyCode)
         {
-            string surveyCode = db.GetSurveyCodeFromDB(inputSurveyCode);
+            Survey survey = db.GetSurveyCodeFromDB(inputSurveyCode);
             
-            return surveyCode;
+            return survey;
         }
 
         public bool CheckSurveyCode(string input)
         {
-            string surveyCode = GetSurveyCode(input);
-            if(input == surveyCode)
+            Survey survey = GetSurveyCode(input);
+            if(input == survey.SurveyCode)
             {
                 return true;
+            }
+            else if (input != survey.SurveyCode)
+            {
+               return false; 
             }
             return false;
         }
