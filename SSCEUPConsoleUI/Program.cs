@@ -113,6 +113,7 @@ namespace SSCEUP
             while (true)
             {
                 // Admin Menu
+                Console.Clear();
                 System.Console.WriteLine("\tOptions\n[A]dd Survey\n[D]o Survey\n[R]emove Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
@@ -150,8 +151,8 @@ namespace SSCEUP
                 Console.Clear();
                 System.Console.WriteLine("Input given surveycode:");
                 surveyCode = Console.ReadLine();
-                bool exsists = surveyManager.CheckSurveyCode(surveyCode);
-                if (exsists == true)
+                bool exists = surveyManager.CheckSurveyCode(surveyCode);
+                if (exists == true)
                 {
                     isCodeNotFound = false;
                 }
@@ -159,9 +160,11 @@ namespace SSCEUP
                 {
                     System.Console.WriteLine("Code not found");
                     PressEnterToContinue();
+                    return;
                 }
-            }
 
+            }
+                
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
 
             foreach (var item in ListOfquestions)
@@ -236,18 +239,20 @@ namespace SSCEUP
 
             Console.WriteLine("What do you want to name the survey?");
             string surveyName = Console.ReadLine();
-            if (surveyName == null)
+           if (string.IsNullOrEmpty(surveyName)==true)
             {
                 Console.WriteLine("The survey name cannot be blank.");
+                PressEnterToContinue();
                 return;
             }
             Console.WriteLine("Survey Code?");
             string surveyCode = Console.ReadLine();
-            if (surveyCode == null)
-            {
-                Console.WriteLine("The survey code cannot be blank.");
-                return;
-            }
+               if (string.IsNullOrEmpty(surveyCode)==true)
+                {
+                    Console.WriteLine("The survey code cannot be blank.");
+                    PressEnterToContinue();
+                    return;
+                }
 
             surveyManager.SaveSurveyName(surveyName, surveyCode);
             List<Question> questions = new List<Question>();
@@ -256,30 +261,31 @@ namespace SSCEUP
             bool isDone = false;
             while (isDone == false)
             {
-                Console.WriteLine("Question?");
+                Console.WriteLine("What is the question?");
                 string input = Console.ReadLine();
-                Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
-                string choice = Console.ReadLine().ToUpper().Trim();
-                if (input == null)
+                if (string.IsNullOrEmpty(input)==true)
                 {
                     Console.WriteLine("The question cannot be blank.");
+                    PressEnterToContinue();
                     return;
                 }
-
+                Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
+                string choice = Console.ReadLine().ToUpper().Trim();
+                            
                 switch (choice)
                 {
                     case "Y":
-                        // kör samma metod get surveyi (SendIDtoDB(surveyid))
                         questions.Add(new Question(surveyid, true, input));
                         break;
                     case "N":
                         questions.Add(new Question(surveyid, false, input));
                         break;
                     default:
-                        Console.WriteLine("Sorry m8, (Y)es or (N)o only..please");
-                        return;
+                        Console.WriteLine("If you dont know if this is a yes or no question or not, maybe you should rephrase the question!");
+                        PressEnterToContinue();
+                        continue;
                 }
-
+                Console.Clear();
                 Console.WriteLine("Add more Questions? Y/N");
                 string continueInput = Console.ReadLine().ToUpper().Trim();
                 if (continueInput == "N")
@@ -321,6 +327,7 @@ namespace SSCEUP
         {
             Console.WriteLine("\nPress ENTER to continue.");
             Console.ReadLine();
+            Console.Clear();
         }
 
         // private string Validate(string input)
