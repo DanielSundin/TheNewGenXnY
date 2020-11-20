@@ -84,11 +84,11 @@ namespace SSCEUPClassLibrary
             }
         }
 
-        internal Statistic GetStatisticFromDB(int surveyId)
+        internal IEnumerable<Statistic> GetStatisticFromDB(int surveyId)
         {
              using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Statistic>("EXEC dbo.spQuestion_GetStatistic @SurveyId", new { SurveyId = surveyId }).FirstOrDefault();
+                return connection.Query<Statistic>("EXEC dbo.spQuestion_GetStatistic @SurveyId", new { SurveyId = surveyId });
             }
         }
     }
