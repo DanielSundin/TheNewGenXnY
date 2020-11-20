@@ -193,7 +193,7 @@ namespace SSCEUP
                     foreach (var scaleChoice in Enum.GetValues(typeof(AnswerScale)))
                     {
                         System.Console.WriteLine($"{(int)scaleChoice}:  {scaleChoice}");
-                        int anotherinput = Convert.ToInt32(Console.ReadLine());
+                        int anotherinput = GetInt(Console.ReadLine());
                        //int validate
                        
                         answers.Add(new Answer(question.QuestionId, anotherinput));
