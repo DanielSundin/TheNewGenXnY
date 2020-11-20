@@ -83,6 +83,14 @@ namespace SSCEUPClassLibrary
                 }
             }
         }
+
+        internal Statistic GetStatisticFromDB(int surveyId)
+        {
+             using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<Statistic>("EXEC dbo.spQuestion_GetStatistic @SurveyId", new { SurveyId = surveyId }).FirstOrDefault();
+            }
+        }
     }
 }
 //The reference assemblies for Office are exposed via the dynamic return type.
