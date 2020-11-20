@@ -153,15 +153,15 @@ namespace SSCEUP
                 bool exsists = surveyManager.CheckSurveyCode(surveyCode);
                 if (exsists == true)
                 {
-                    isCodeNotFound = false; 
+                    isCodeNotFound = false;
                 }
-                else 
+                else
                 {
                     System.Console.WriteLine("Code not found");
                     PressEnterToContinue();
                 }
             }
-            
+
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
 
             foreach (var item in ListOfquestions)
@@ -172,10 +172,10 @@ namespace SSCEUP
 
 
 
-           
 
-           
-               
+
+
+
             // foreach (var item in surveyManager.GetAllSurveys())
             // {
             //     System.Console.WriteLine(item.Title);
@@ -235,33 +235,21 @@ namespace SSCEUP
         {
 
             Console.WriteLine("What do you want to name the survey?");
-
             string surveyName = Console.ReadLine();
-
+            if (surveyName == null)
+            {
+                Console.WriteLine("The survey name cannot be blank.");
+                return;
+            }
             Console.WriteLine("Survey Code?");
             string surveyCode = Console.ReadLine();
-            try
+            if (surveyCode == null)
             {
-                surveyManager.SaveSurveyName(surveyName, surveyCode);
+                Console.WriteLine("The survey code cannot be blank.");
+                return;
             }
-            catch (IndexOutOfRangeException e)
-            {
-                Console.WriteLine("The input parameter was really strange, and therefore error." + e);
-                Console.ReadKey();
-                Console.WriteLine(e);
-            }
-            catch (ArgumentNullException e)
-            {
-                Console.WriteLine($"You didn't fill in any information!");
-                Console.ReadKey();
-                Console.WriteLine(e);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Something went wrong...press key to read error message");
-                Console.ReadKey();
-                Console.WriteLine(e);
-            }
+
+            surveyManager.SaveSurveyName(surveyName, surveyCode);
             List<Question> questions = new List<Question>();
             int surveyid = surveyManager.GetSurveyId(surveyName);
 
@@ -272,15 +260,20 @@ namespace SSCEUP
                 string input = Console.ReadLine();
                 Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
                 string choice = Console.ReadLine().ToUpper().Trim();
+                if (input == null)
+                {
+                    Console.WriteLine("The question cannot be blank.");
+                    return;
+                }
 
                 switch (choice)
                 {
                     case "Y":
                         // kör samma metod get surveyi (SendIDtoDB(surveyid))
-                        questions.Add(new YesNoQuestion(surveyid, true, input));
+                        questions.Add(new Question(surveyid, true, input));
                         break;
                     case "N":
-                        questions.Add(new ScaleQuestion(surveyid, false, input));
+                        questions.Add(new Question(surveyid, false, input));
                         break;
                     default:
                         Console.WriteLine("Sorry m8, (Y)es or (N)o only..please");
@@ -292,7 +285,24 @@ namespace SSCEUP
                 if (continueInput == "N")
                 {
                     isDone = true;
-                    surveyManager.SavetoDB(questions);
+                    try
+                    {
+                        surveyManager.SavetoDB(questions);
+                    }
+                    catch (System.Data.SqlClient.SqlException e)
+                    {
+                        Console.WriteLine("There is something off with the database. I can't really see what from here..");
+                        Console.ReadKey();
+                        Console.WriteLine(e);
+                        return;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Something went wrong...press key to read error message");
+                        Console.ReadKey();
+                        Console.WriteLine(e);
+                        return;
+                    }
                 }
                 else if (continueInput == "Y")
                 {
@@ -307,10 +317,37 @@ namespace SSCEUP
             }
         }
 
-         private static void PressEnterToContinue()
+        private static void PressEnterToContinue()
         {
             Console.WriteLine("\nPress ENTER to continue.");
             Console.ReadLine();
         }
+
+        // private string Validate(string input)
+        // {
+
+        // try
+        // {
+
+        // }
+        // catch (IndexOutOfRangeException e)
+        // {
+        //     Console.WriteLine("The input parameter was really strange, and therefore error." + e);
+        //     Console.ReadKey();
+        //     Console.WriteLine(e);
+        // }
+        // catch (ArgumentNullException e)
+        // {
+        //     Console.WriteLine($"You didn't fill in any information!");
+        //     Console.ReadKey();
+        //     Console.WriteLine(e);
+        // }
+        // catch (Exception e)
+        // {
+        //     Console.WriteLine("Something went wrong...press key to read error message");
+        //     Console.ReadKey();
+        //     Console.WriteLine(e);
+        // }
+        //  }
     }
 }
