@@ -80,7 +80,7 @@ namespace SSCEUPClassLibrary
 
                 foreach (var answer in answerlist)
                 {
-                    connection.Execute("EXEC [dbo].[spAnswer_SaveAnswer]  @QuestionId, @ScaleAnswer, @YoNAnswer", new {answer.QuestionId, answer.ScaleAnswer, answer.YoNAnswer });
+                    connection.Execute("EXEC [dbo].[spAnswer_SaveAnswer] @YoNAnswer, @ScaleAnswer, @QuestionId", new { answer.YoNAnswer, answer.ScaleAnswer, answer.QuestionId });
                 }
             }
         }
