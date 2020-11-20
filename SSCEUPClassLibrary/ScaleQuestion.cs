@@ -15,12 +15,5 @@ namespace SSCEUPClassLibrary
         // }
   //  }
 
-    // public enum ScaleAnswer  
-    // {
-    //     Horrible = 1,
-    //     Bad,   
-    //     Neutral,
-    //     Good,     
-    //     Great
-    // }
+  
 }

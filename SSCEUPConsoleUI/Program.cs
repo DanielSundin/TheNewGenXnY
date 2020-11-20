@@ -164,12 +164,27 @@ namespace SSCEUP
                 }
 
             }
-                
+
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
 
-            foreach (var item in ListOfquestions)
+            foreach (var question in ListOfquestions)
             {
-                System.Console.WriteLine(item.Text);
+                System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}");
+                if (question.IsYesNoQuestion == true)
+                {
+                    System.Console.WriteLine("\n [Y] or [N]");
+                    string answer = Console.ReadLine();
+                    // add new yesorno Answer ?? eller question ?? 
+                    //(YesNoQuestion)question
+                }
+                else if (question.IsYesNoQuestion == false)
+                {
+                    foreach (var scaleChoice in Enum.GetValues(typeof(ScaleAnswer)))
+                    {
+                        System.Console.WriteLine($"{(int)scaleChoice}:  {scaleChoice}");
+                        // do something with this. 
+                    }
+                }
                 PressEnterToContinue();
             }
 
@@ -328,6 +343,15 @@ namespace SSCEUP
             Console.WriteLine("\nPress ENTER to continue.");
             Console.ReadLine();
             Console.Clear();
+        }
+
+        public enum ScaleAnswer  
+        {
+            Horrible = 1,
+            Bad,   
+            Neutral,
+            Good,     
+            Great
         }
 
         // private string Validate(string input)
