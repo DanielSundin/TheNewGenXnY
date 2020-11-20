@@ -166,86 +166,101 @@ namespace SSCEUP
             }
 
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
-
+            List<Answer> answers = new List<Answer>();
             foreach (var question in ListOfquestions)
             {
                 System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}");
                 if (question.IsYesNoQuestion == true)
                 {
                     System.Console.WriteLine("\n [Y] or [N]");
-                    string answer = Console.ReadLine();
-                    // add new yesorno Answer ?? eller question ?? 
-                    //(YesNoQuestion)question
-                }
-                else if (question.IsYesNoQuestion == false)
-                {
-                    foreach (var scaleChoice in Enum.GetValues(typeof(ScaleAnswer)))
+                    string choice = Console.ReadLine();
+                    while (true)
                     {
-                        System.Console.WriteLine($"{(int)scaleChoice}:  {scaleChoice}");
-                        // do something with this. 
+                        switch (choice)
+                        {
+                            case "Y":
+                                answers.Add(new Answer(question.QuestionId, true));
+                                break;
+                            case "N":
+                                answers.Add(new Answer(question.QuestionId, false));
+                                break;
+                        }
                     }
                 }
+
+                else if (question.IsYesNoQuestion == false)
+                {
+                    foreach (var scaleChoice in Enum.GetValues(typeof(AnswerScale)))
+                    {
+                        System.Console.WriteLine($"{(int)scaleChoice}:  {scaleChoice}");
+                        int anotherinput = Convert.ToInt32(Console.ReadLine());
+                       //int validate
+                       
+                        answers.Add(new Answer(question.QuestionId, anotherinput));
+                    }
+                }
+                surveyManager.InsertAnswers(answers);
                 PressEnterToContinue();
             }
 
-
-
-
-
-
-
-            // foreach (var item in surveyManager.GetAllSurveys())
-            // {
-            //     System.Console.WriteLine(item.Title);
-            // }
-            //      while (true)
-            //     {
-            //         // if (q.GetType() == typeof(YesNoQuestion))
-            //         if (q is YesNoQuestion)
-            //         {
-            //             var qYesNo = (YesNoQuestion)q;
-            //             //qYesNo.
-            //             Console.WriteLine("Y/N");
-            //             string input = Console.ReadLine().ToUpper().Trim();
-            //             switch (input)
-            //             {
-            //                 case "Y":
-            //                     {
-            //                         qYesNo.Answer = true;
-            //                         break;
-            //                     }
-            //                 case "N":
-            //                     {
-            //                         qYesNo.Answer = false;
-            //                         break;
-            //                     }
-            //                 default:
-            //                     {
-            //                         Console.WriteLine("Choose Y or N.");
-            //                         return;
-            //                     }
-            //             }
-            //         }
-            //         else
-            //         {
-            //             Console.WriteLine("(1-5)");
-            //             var qScale = (ScaleQuestion)q;
-            //             int input = Convert.ToInt32(Console.ReadLine());        //lägg till try/catch
-            //             if (input > 0 && input < 6)
-            //             {
-            //                 System.Console.WriteLine(" här är skalan 1-5!!!!");
-            //                 System.Console.WriteLine(q.GetType().ToString());
-            //                 qScale.Answer = input;
-            //             }
-            //             else
-            //             {
-            //                 Console.WriteLine("Answer out of range!");
-            //                 return;
-            //             }
-            //         }
-
-            //     }
         }
+
+
+
+
+
+        // foreach (var item in surveyManager.GetAllSurveys())
+        // {
+        //     System.Console.WriteLine(item.Title);
+        // }
+        //      while (true)
+        //     {
+        //         // if (q.GetType() == typeof(YesNoQuestion))
+        //         if (q is YesNoQuestion)
+        //         {
+        //             var qYesNo = (YesNoQuestion)q;
+        //             //qYesNo.
+        //             Console.WriteLine("Y/N");
+        //             string input = Console.ReadLine().ToUpper().Trim();
+        //             switch (input)
+        //             {
+        //                 case "Y":
+        //                     {
+        //                         qYesNo.Answer = true;
+        //                         break;
+        //                     }
+        //                 case "N":
+        //                     {
+        //                         qYesNo.Answer = false;
+        //                         break;
+        //                     }
+        //                 default:
+        //                     {
+        //                         Console.WriteLine("Choose Y or N.");
+        //                         return;
+        //                     }
+        //             }
+        //         }
+        //         else
+        //         {
+        //             Console.WriteLine("(1-5)");
+        //             var qScale = (ScaleQuestion)q;
+        //             int input = Convert.ToInt32(Console.ReadLine());        //lägg till try/catch
+        //             if (input > 0 && input < 6)
+        //             {
+        //                 System.Console.WriteLine(" här är skalan 1-5!!!!");
+        //                 System.Console.WriteLine(q.GetType().ToString());
+        //                 qScale.Answer = input;
+        //             }
+        //             else
+        //             {
+        //                 Console.WriteLine("Answer out of range!");
+        //                 return;
+        //             }
+        //         }
+
+        //     }
+
 
 
 
@@ -254,7 +269,7 @@ namespace SSCEUP
 
             Console.WriteLine("What do you want to name the survey?");
             string surveyName = Console.ReadLine();
-           if (string.IsNullOrEmpty(surveyName)==true)
+            if (string.IsNullOrEmpty(surveyName) == true)
             {
                 Console.WriteLine("The survey name cannot be blank.");
                 PressEnterToContinue();
@@ -262,12 +277,12 @@ namespace SSCEUP
             }
             Console.WriteLine("Survey Code?");
             string surveyCode = Console.ReadLine();
-               if (string.IsNullOrEmpty(surveyCode)==true)
-                {
-                    Console.WriteLine("The survey code cannot be blank.");
-                    PressEnterToContinue();
-                    return;
-                }
+            if (string.IsNullOrEmpty(surveyCode) == true)
+            {
+                Console.WriteLine("The survey code cannot be blank.");
+                PressEnterToContinue();
+                return;
+            }
 
             surveyManager.SaveSurveyName(surveyName, surveyCode);
             List<Question> questions = new List<Question>();
@@ -278,7 +293,7 @@ namespace SSCEUP
             {
                 Console.WriteLine("What is the question?");
                 string input = Console.ReadLine();
-                if (string.IsNullOrEmpty(input)==true)
+                if (string.IsNullOrEmpty(input) == true)
                 {
                     Console.WriteLine("The question cannot be blank.");
                     PressEnterToContinue();
@@ -286,7 +301,7 @@ namespace SSCEUP
                 }
                 Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
                 string choice = Console.ReadLine().ToUpper().Trim();
-                            
+
                 switch (choice)
                 {
                     case "Y":
@@ -345,12 +360,12 @@ namespace SSCEUP
             Console.Clear();
         }
 
-        public enum ScaleAnswer  
+        public enum AnswerScale
         {
             Horrible = 1,
-            Bad,   
+            Bad,
             Neutral,
-            Good,     
+            Good,
             Great
         }
 

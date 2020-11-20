@@ -73,20 +73,13 @@ namespace SSCEUPClassLibrary
             }
         }
 
-        internal void InsertIntoAnswer(List<Question> questionlist)
+        internal void InsertIntoAnswer(List<Answer> answerlist)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                foreach (var answer in questionlist)
+                foreach (var answer in answerlist)
                 {
-                    if (answer is Question YesNoQuestion)
-                    {
-                        connection.Execute("EXEC dbo.spAnswer_SaveAnswer  @YNAnswer, @QuestionId", answer);
-                    }
-                    else
-                    {
-                        connection.Execute("EXEC dbo.spAnswer_SaveAnswer  @ScaleAnswer, @QuestionId", answer);
-                    }
+                    connection.Execute("EXEC dbo.spAnswer_SaveAnswer  @QuestionId, @ScaleAnswer, @YNAnswer,", answer);
                 }
             }
         }
