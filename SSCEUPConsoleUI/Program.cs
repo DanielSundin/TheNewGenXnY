@@ -300,9 +300,9 @@ namespace SSCEUP
                 }
                 else
                 {
-                    Console.WriteLine("I guess that´s a no... better start over!");
-                    isDone = true;
-                    questions.Clear();
+                    Console.WriteLine("Does that mean NO? Please confirm (Y/N)");
+                    isDone = false;
+                    return;
                 }
             }
         }
