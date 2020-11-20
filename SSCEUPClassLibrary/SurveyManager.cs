@@ -41,5 +41,10 @@ namespace SSCEUPClassLibrary
             }
             return true;
         }
+
+        public void InsertAwnsers(List<Question> listOFQuestions)
+        {
+            db.InsertIntoAnswer(listOFQuestions);
+        }
     }
 }

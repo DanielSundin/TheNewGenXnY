@@ -30,7 +30,7 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                var output = connection.Query<Question>("EXECUTE [dbo].[spGetSurveyQuestions] @FindCode ", new { FindCode = surveyCode}).ToList();
+                var output = connection.Query<Question>("EXECUTE [dbo].[spGetSurveyQuestions] @FindCode ", new { FindCode = surveyCode }).ToList();
                 return output;
             }
         }
@@ -57,8 +57,8 @@ namespace SSCEUPClassLibrary
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
-                return connection.Query<Survey>("SELECT SurveyCode FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode});
-                
+                return connection.Query<Survey>("SELECT SurveyCode FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode });
+
             }
         }
 
@@ -69,6 +69,24 @@ namespace SSCEUPClassLibrary
                 foreach (var question in questionlist)
                 {
                     connection.Execute("INSERT INTO QUESTION (SurveyId, IsYesNoQuestion,Text) values (@SurveyId,@IsYesNoQuestion,@Text)", question);
+                }
+            }
+        }
+
+        internal void InsertIntoAnswer(List<Question> questionlist)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                foreach (var answer in questionlist)
+                {
+                    if (answer is Question YesNoQuestion)
+                    {
+                        connection.Execute("EXEC dbo.spAnswer_SaveAnswer  @YNAnswer, @QuestionId", answer);
+                    }
+                    else
+                    {
+                        connection.Execute("EXEC dbo.spAnswer_SaveAnswer  @ScaleAnswer, @QuestionId", answer);
+                    }
                 }
             }
         }
