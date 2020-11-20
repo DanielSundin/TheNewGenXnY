@@ -1,6 +1,6 @@
 namespace SSCEUPClassLibrary
 {
-    class Statistic
+    public class Statistic
     {
         public string Title { get; set; }
         public string Text { get; set; }

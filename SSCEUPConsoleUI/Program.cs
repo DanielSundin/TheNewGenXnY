@@ -354,6 +354,40 @@ namespace SSCEUP
             Great
         }
 
+        public static int GetInt(string message)
+            {
+                string stringInput = "";
+                int value =  0;
+                bool flag = true;
+ 
+                while (flag == true)
+                {
+                    Console.WriteLine(message);
+                    stringInput = Console.ReadLine().Trim();
+                    try
+                    {
+                        value = Convert.ToInt32(stringInput);
+                        flag = false;
+                    }
+                    catch
+                    {
+                        Console.WriteLine($"ERROR! {stringInput} is not a valid integer.");
+                        flag = true;
+                    }
+                }
+ 
+                // Console.WriteLine(message);
+                // while (!int.TryParse(stringInput, out value))
+                // {
+                //     Console.WriteLine($"{stringInput} is not a valid integer. put in a number.");
+                // }
+ 
+                return value;
+            }
+
+
+
+
         // private string Validate(string input)
         // {
 

@@ -46,5 +46,10 @@ namespace SSCEUPClassLibrary
         {
             db.InsertIntoAnswer(listOFQuestions);
         }
+
+        public Statistic GetStatistic(int surveyId)
+        {
+           return db.GetStatisticFromDB(surveyId);
+        }
     }
 }
