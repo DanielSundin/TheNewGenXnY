@@ -173,9 +173,11 @@ namespace SSCEUP
                 if (question.IsYesNoQuestion == true)
                 {
                     System.Console.WriteLine("\n [Y] or [N]");
-                    string choice = Console.ReadLine();
+                    
                     while (true)
                     {
+                        string choice = Console.ReadLine().ToUpper().Trim();
+                        
                         switch (choice)
                         {
                             case "Y":
