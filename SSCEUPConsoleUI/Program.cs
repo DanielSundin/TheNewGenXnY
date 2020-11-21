@@ -160,8 +160,6 @@ namespace SSCEUP
             foreach (var question in ListOfquestions)
             {
                 bool validChoice = false;
-                // Console.Clear();
-                // System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}\n");
                 if (question.IsYesNoQuestion == true)
                 {
                     Console.Clear();
@@ -193,7 +191,6 @@ namespace SSCEUP
                 {
 
                     Console.Clear();
-                    // PrintAnswerScale(answerScale);
                     while (!validChoice)
                     {
                         System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}\n");
