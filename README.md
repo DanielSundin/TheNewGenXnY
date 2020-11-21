@@ -10,9 +10,12 @@
 
 ## TODO
 
-* Svara på survey
-* lista med färdig survey
-* Dapper - Skicka in, ta bort
-
+* lista namn på survey
+* kolla survecode mot user / surveyid mot userid
+* & logik att stoppa dubletter i program av detta
+* mer validering
+* snygga statistik
+* snygga menyer
+* snygga allmänt
              
      
