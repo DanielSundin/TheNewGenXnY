@@ -144,6 +144,7 @@ namespace SSCEUP
         }
         private static void DoSurvey(SurveyManager surveyManager)
         {
+            Console.Clear();
             string surveyCode = "";
             bool isCodeNotFound = true;
             while (isCodeNotFound)
@@ -169,102 +170,63 @@ namespace SSCEUP
             List<Answer> answers = new List<Answer>();
             foreach (var question in ListOfquestions)
             {
+                bool validChoice = false;
                 System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}");
                 if (question.IsYesNoQuestion == true)
                 {
-                    System.Console.WriteLine("\n [Y] or [N]");
-                    
-                    while (true)
+
+
+                    while (!validChoice)
                     {
+
+                        System.Console.WriteLine("\n [Y] or [N]");
                         string choice = Console.ReadLine().ToUpper().Trim();
-                        
-                        switch (choice)
+                        if (choice == "Y")
                         {
-                            case "Y":
-                                answers.Add(new Answer(question.QuestionId, true));
-                                break;
-                            case "N":
-                                answers.Add(new Answer(question.QuestionId, false));
-                                break;
+                            answers.Add(new Answer(question.QuestionId, true));
+                            validChoice = true;
+                        }
+                        else if (choice == "N")
+                        {
+                            answers.Add(new Answer(question.QuestionId, false));
+                            validChoice = true;
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("Not a valid option");
+                            PressEnterToContinue();
                         }
                     }
                 }
 
                 else if (question.IsYesNoQuestion == false)
                 {
+
                     foreach (var scaleChoice in Enum.GetValues(typeof(AnswerScale)))
                     {
                         System.Console.WriteLine($"{(int)scaleChoice}:  {scaleChoice}");
-                        int anotherinput = GetInt(Console.ReadLine());
-                       //int validate
-                       
-                        answers.Add(new Answer(question.QuestionId, anotherinput));
+                    }
+
+                    while (!validChoice)
+                    {
+                        int userInput = Convert.ToInt32(Console.ReadLine());
+                        if (userInput >=1 || userInput <=5)
+                        {
+                            answers.Add(new Answer(question.QuestionId, userInput));
+                            validChoice = true;
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("Not a valid choice, 1-5 is enough");
+                        }
                     }
                 }
-                surveyManager.InsertAnswers(answers);
-                PressEnterToContinue();
             }
+            surveyManager.InsertAnswers(answers);
+            System.Console.WriteLine("Thank you for participating, have a nice day!");
+            PressEnterToContinue();
 
         }
-
-
-
-
-
-        // foreach (var item in surveyManager.GetAllSurveys())
-        // {
-        //     System.Console.WriteLine(item.Title);
-        // }
-        //      while (true)
-        //     {
-        //         // if (q.GetType() == typeof(YesNoQuestion))
-        //         if (q is YesNoQuestion)
-        //         {
-        //             var qYesNo = (YesNoQuestion)q;
-        //             //qYesNo.
-        //             Console.WriteLine("Y/N");
-        //             string input = Console.ReadLine().ToUpper().Trim();
-        //             switch (input)
-        //             {
-        //                 case "Y":
-        //                     {
-        //                         qYesNo.Answer = true;
-        //                         break;
-        //                     }
-        //                 case "N":
-        //                     {
-        //                         qYesNo.Answer = false;
-        //                         break;
-        //                     }
-        //                 default:
-        //                     {
-        //                         Console.WriteLine("Choose Y or N.");
-        //                         return;
-        //                     }
-        //             }
-        //         }
-        //         else
-        //         {
-        //             Console.WriteLine("(1-5)");
-        //             var qScale = (ScaleQuestion)q;
-        //             int input = Convert.ToInt32(Console.ReadLine());        //lägg till try/catch
-        //             if (input > 0 && input < 6)
-        //             {
-        //                 System.Console.WriteLine(" här är skalan 1-5!!!!");
-        //                 System.Console.WriteLine(q.GetType().ToString());
-        //                 qScale.Answer = input;
-        //             }
-        //             else
-        //             {
-        //                 Console.WriteLine("Answer out of range!");
-        //                 return;
-        //             }
-        //         }
-
-        //     }
-
-
-
 
         public static void CreateSurvey(SurveyManager surveyManager)
         {
@@ -372,35 +334,35 @@ namespace SSCEUP
         }
 
         public static int GetInt(string message)
+        {
+            string stringInput = "";
+            int value = 0;
+            bool flag = true;
+
+            while (flag == true)
             {
-                string stringInput = "";
-                int value =  0;
-                bool flag = true;
- 
-                while (flag == true)
+                Console.WriteLine(message);
+                stringInput = Console.ReadLine().Trim();
+                try
                 {
-                    Console.WriteLine(message);
-                    stringInput = Console.ReadLine().Trim();
-                    try
-                    {
-                        value = Convert.ToInt32(stringInput);
-                        flag = false;
-                    }
-                    catch
-                    {
-                        Console.WriteLine($"ERROR! {stringInput} is not a valid integer.");
-                        flag = true;
-                    }
+                    value = Convert.ToInt32(stringInput);
+                    flag = false;
                 }
- 
-                // Console.WriteLine(message);
-                // while (!int.TryParse(stringInput, out value))
-                // {
-                //     Console.WriteLine($"{stringInput} is not a valid integer. put in a number.");
-                // }
- 
-                return value;
+                catch
+                {
+                    Console.WriteLine($"ERROR! {stringInput} is not a valid integer.");
+                    flag = true;
+                }
             }
+
+            // Console.WriteLine(message);
+            // while (!int.TryParse(stringInput, out value))
+            // {
+            //     Console.WriteLine($"{stringInput} is not a valid integer. put in a number.");
+            // }
+
+            return value;
+        }
 
 
 
