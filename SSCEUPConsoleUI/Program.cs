@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SSCEUPClassLibrary;
 
 
+
 namespace SSCEUP
 {
     class Program
@@ -37,12 +38,12 @@ namespace SSCEUP
                     Console.ReadKey();
                     Console.WriteLine(e);
                 }
-                catch (ArgumentNullException e)
-                {
-                    Console.WriteLine($"You didn't fill in any information!");
-                    Console.ReadKey();
-                    Console.WriteLine(e);
-                }
+                // catch (ArgumentNullException e)  //tar över om man skriver fel username
+                // {
+                //     Console.WriteLine($"You didn't fill in any information!");
+                //     Console.ReadKey();
+                //     Console.WriteLine(e);
+                // }
                 catch (System.Data.SqlClient.SqlException e)
                 {
                     Console.WriteLine("There is something off with the database. I can't really see what from here..");
@@ -81,9 +82,12 @@ namespace SSCEUP
 
         private static void RunUserMode(SurveyManager surveyManager)
         {
+            Dictionary<string, string> answerScale = DefineAnswerScaleValues();
+
             while (true)
             {
                 // User Menu
+                Console.Clear();
                 System.Console.WriteLine("\tOptions\n[D]o Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
@@ -91,7 +95,7 @@ namespace SSCEUP
                     case "D":
                         {
                             Console.Clear();
-                            DoSurvey(surveyManager);
+                            DoSurvey(surveyManager,answerScale);
                             break;
                         }
                     case "Q":
@@ -114,7 +118,7 @@ namespace SSCEUP
             {
                 // Admin Menu
                 Console.Clear();
-                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[D]o Survey\n[L]ist Surveys\n[G]et Statistics\n[R]emove Survey\n[Q]uit");
+                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[L]ist Surveys\n[G]et Statistics\n[R]emove Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
@@ -122,12 +126,6 @@ namespace SSCEUP
                         {
                             Console.Clear();
                             CreateSurvey(surveyManager);
-                            break;
-                        }
-                    case "D":
-                        {
-                            Console.Clear();
-                            DoSurvey(surveyManager);
                             break;
                         }
                     case "L":
@@ -155,7 +153,7 @@ namespace SSCEUP
                 }
             }
         }
-        private static void DoSurvey(SurveyManager surveyManager)
+        private static void DoSurvey(SurveyManager surveyManager,Dictionary<string,string> answerScale)
         {
             Console.Clear();
             string surveyCode = "";
@@ -178,17 +176,16 @@ namespace SSCEUP
                 }
 
             }
-
+            Console.Clear();
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
             List<Answer> answers = new List<Answer>();
             foreach (var question in ListOfquestions)
             {
                 bool validChoice = false;
-                System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}");
+                Console.Clear();
+                System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}\n");
                 if (question.IsYesNoQuestion == true)
                 {
-
-
                     while (!validChoice)
                     {
 
@@ -215,32 +212,35 @@ namespace SSCEUP
                 else if (question.IsYesNoQuestion == false)
                 {
 
-                    foreach (var scaleChoice in Enum.GetValues(typeof(AnswerScale)))
-                    {
-                        System.Console.WriteLine($"{(int)scaleChoice}:  {scaleChoice}");
-                    }
+                    PrintAnswerScale(answerScale);
 
                     while (!validChoice)
                     {
-                       int userInput=7;
-                       try
-                       {
+
+                        int userInput = 0;
+                        try
+                        {
                             userInput = Convert.ToInt32(Console.ReadLine());
-                       }
-                       catch (System.Exception e)
-                       {
-                            System.Console.WriteLine("Error! " + e.Message);
-                            System.Console.WriteLine("Try again.");
-                       }
-                        if(userInput >0 && userInput <6)
+                        }
+                        catch 
+                        {
+                            // System.Console.WriteLine("Error! " + e.Message);
+                        }
+                        if (userInput > 0 && userInput < 6)
                         {
                             answers.Add(new Answer(question.QuestionId, userInput));
                             validChoice = true;
                         }
-                             
+                        else
+                        {
+                            Console.Clear();
+                            System.Console.WriteLine("Input should preferably be a number and between 1-5 ");
+                        }
+
                     }
                 }
             }
+            Console.Clear();
             surveyManager.InsertAnswers(answers);
             System.Console.WriteLine("Thank you for participating, have a nice day!");
             PressEnterToContinue();
@@ -342,15 +342,7 @@ namespace SSCEUP
             Console.ReadLine();
             Console.Clear();
         }
-
-        public enum AnswerScale
-        {
-            Horrible = 1,
-            Bad,
-            Neutral,
-            Good,
-            Great
-        }
+   
 
         public static int GetInt(string message)
         {
@@ -382,7 +374,7 @@ namespace SSCEUP
 
             return value;
         }
-        
+
         public static void PrintSurveys(SurveyManager surveyManager)
         {
             foreach (var item in surveyManager.GetSurveys())
@@ -393,37 +385,31 @@ namespace SSCEUP
 
         public static void GetStatistics(SurveyManager surveyManager)
         {
-            
+
         }
 
-        // private string Validate(string input)
-        // {
-
-        // try
-        // {
-
-        // }
-        // catch (IndexOutOfRangeException e)
-        // {
-        //     Console.WriteLine("The input parameter was really strange, and therefore error." + e);
-        //     Console.ReadKey();
-        //     Console.WriteLine(e);
-        // }
-        // catch (ArgumentNullException e)
-        // {
-        //     Console.WriteLine($"You didn't fill in any information!");
-        //     Console.ReadKey();
-        //     Console.WriteLine(e);
-        // }
-        // catch (Exception e)
-        // {
-        //     Console.WriteLine("Something went wrong...press key to read error message");
-        //     Console.ReadKey();
-        //     Console.WriteLine(e);
-        // }
-        //  }
-
- 
+          public static Dictionary<string, string> DefineAnswerScaleValues()
+        {
+            Dictionary<string, string> answerScale = new Dictionary<string, string>();
+            answerScale.Add("1", "Strongly Disagree ");
+            answerScale.Add("2", "Disagree ");
+            answerScale.Add("3", "Undecided ");
+            answerScale.Add("4", "Agree ");
+            answerScale.Add("5", "Strongly Agree ");
+            return answerScale;
         }
+
+        public static void PrintAnswerScale(Dictionary<string,string> answerScale )
+        {
+            foreach (var item in answerScale)
+            {
+                Console.Write("[{0}]{1} ", item.Key, item.Value);
+            }
+            System.Console.Write("\nYour answer: ");
+        }
+
     }
-// }
+}
+
+
+
