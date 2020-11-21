@@ -47,9 +47,10 @@ namespace SSCEUPClassLibrary
             db.InsertIntoAnswer(listOfAnswers);
         }
 
-        public Statistic GetStatistic(int surveyId)
+        public List<Statistic> GetStatistic(int surveyId)
         {
-           return db.GetStatisticFromDB(surveyId);
+            List<Statistic> surveyStatistics = new List<Statistic>(db.GetStatisticFromDB(surveyId));
+            return surveyStatistics;
         }
     }
 }
