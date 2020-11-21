@@ -77,21 +77,23 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+
                 foreach (var answer in answerlist)
                 {
-                    connection.Execute("EXEC dbo.spAnswer_SaveAnswer  @QuestionId, @ScaleAnswer, @YNAnswer,", answer);
+                    connection.Execute("EXEC [dbo].[spAnswer_SaveAnswer] @YoNAnswer, @ScaleAnswer, @QuestionId", new { answer.YoNAnswer, answer.ScaleAnswer, answer.QuestionId });
                 }
             }
         }
 
         internal IEnumerable<Statistic> GetStatisticFromDB(int surveyId)
         {
-             using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Statistic>("EXEC dbo.spQuestion_GetStatistic @SurveyId", new { SurveyId = surveyId });
+
+                return connection.Query<Statistic>("EXEC [dbo].[spQuestion_GetStatistic] @SurveyId", new { SurveyId = surveyId }).FirstOrDefault();
+
             }
         }
     }
 }
-//The reference assemblies for Office are exposed via the dynamic return type.
-//To be able to compile you need to add a reference to Microsoft.CSharp.dll.
+

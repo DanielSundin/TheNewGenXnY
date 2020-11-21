@@ -27,10 +27,5 @@ namespace SSCEUPClassLibrary
             this.SurveyId=surveyId;
             this.Title=title;
         }
-
-        // public override string ToString()          //kolla om behövs
-        // {
-        //     return $"{SurveyId} : {Title}";
-        // }
     }
 }
