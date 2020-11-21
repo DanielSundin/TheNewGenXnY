@@ -93,5 +93,3 @@ namespace SSCEUPClassLibrary
         }
     }
 }
-//The reference assemblies for Office are exposed via the dynamic return type.
-//To be able to compile you need to add a reference to Microsoft.CSharp.dll.
