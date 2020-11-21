@@ -114,7 +114,7 @@ namespace SSCEUP
             {
                 // Admin Menu
                 Console.Clear();
-                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[D]o Survey\n[R]emove Survey\n[Q]uit");
+                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[D]o Survey\n[L]ist Surveys\n[G]et Statistics\n[R]emove Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
@@ -128,6 +128,19 @@ namespace SSCEUP
                         {
                             Console.Clear();
                             DoSurvey(surveyManager);
+                            break;
+                        }
+                    case "L":
+                        {
+                            Console.Clear();
+                            PrintSurveys(surveyManager);
+                            break;
+                        }
+                    case "G":
+                        {
+                            Console.Clear();
+                            PrintSurveys(surveyManager);
+                            GetStatistics(surveyManager);
                             break;
                         }
                     case "Q":
@@ -209,16 +222,22 @@ namespace SSCEUP
 
                     while (!validChoice)
                     {
-                        int userInput = Convert.ToInt32(Console.ReadLine());
-                        if (userInput >=1 || userInput <=5)
+                       int userInput=7;
+                       try
+                       {
+                            userInput = Convert.ToInt32(Console.ReadLine());
+                       }
+                       catch (System.Exception e)
+                       {
+                            System.Console.WriteLine("Error! " + e.Message);
+                            System.Console.WriteLine("Try again.");
+                       }
+                        if(userInput >0 && userInput <6)
                         {
                             answers.Add(new Answer(question.QuestionId, userInput));
                             validChoice = true;
                         }
-                        else
-                        {
-                            System.Console.WriteLine("Not a valid choice, 1-5 is enough");
-                        }
+                             
                     }
                 }
             }
@@ -250,7 +269,7 @@ namespace SSCEUP
 
             surveyManager.SaveSurveyName(surveyName, surveyCode);
             List<Question> questions = new List<Question>();
-            int surveyid = surveyManager.GetSurveyId(surveyName);
+            int surveyid = surveyManager.GetSurveyId(surveyCode);
 
             bool isDone = false;
             while (isDone == false)
@@ -363,9 +382,19 @@ namespace SSCEUP
 
             return value;
         }
+        
+        public static void PrintSurveys(SurveyManager surveyManager)
+        {
+            foreach (var item in surveyManager.GetSurveys())
+            {
+                System.Console.WriteLine(item.SurveyId + " " + item.Title);
+            }
+        }
 
-
-
+        public static void GetStatistics(SurveyManager surveyManager)
+        {
+            
+        }
 
         // private string Validate(string input)
         // {
@@ -393,5 +422,8 @@ namespace SSCEUP
         //     Console.WriteLine(e);
         // }
         //  }
+
+ 
+        }
     }
-}
+// }

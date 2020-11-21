@@ -25,9 +25,9 @@ namespace SSCEUPClassLibrary
             return allSurveys;
         }
 
-        public int GetSurveyId(string title)
+        public int GetSurveyId(string surveyCode)
         {
-            int surveyID = db.GetSurveyIdFromDB(title);
+            int surveyID = db.GetSurveyIdFromDB(surveyCode);
 
             return surveyID;
         }
@@ -51,6 +51,12 @@ namespace SSCEUPClassLibrary
         {
             List<Statistic> surveyStatistics = new List<Statistic>(db.GetStatisticFromDB(surveyId));
             return surveyStatistics;
+        }
+
+        public List<Survey> GetSurveys()
+        {
+            List<Survey> surveys = new List<Survey>(db.GetSurveysFromDB());
+            return surveys;
         }
     }
 }
