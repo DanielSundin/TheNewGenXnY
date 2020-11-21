@@ -95,7 +95,7 @@ namespace SSCEUP
                     case "D":
                         {
                             Console.Clear();
-                            DoSurvey(surveyManager,answerScale);
+                            DoSurvey(surveyManager, answerScale);
                             break;
                         }
                     case "Q":
@@ -153,7 +153,7 @@ namespace SSCEUP
                 }
             }
         }
-        private static void DoSurvey(SurveyManager surveyManager,Dictionary<string,string> answerScale)
+        private static void DoSurvey(SurveyManager surveyManager, Dictionary<string, string> answerScale)
         {
             Console.Clear();
             string surveyCode = "";
@@ -222,7 +222,7 @@ namespace SSCEUP
                         {
                             userInput = Convert.ToInt32(Console.ReadLine());
                         }
-                        catch 
+                        catch
                         {
                             // System.Console.WriteLine("Error! " + e.Message);
                         }
@@ -342,7 +342,7 @@ namespace SSCEUP
             Console.ReadLine();
             Console.Clear();
         }
-   
+
 
         public static int GetInt(string message)
         {
@@ -379,16 +379,13 @@ namespace SSCEUP
         {
             foreach (var item in surveyManager.GetSurveys())
             {
-                System.Console.WriteLine(item.SurveyId + " " + item.Title);
+                System.Console.WriteLine($"ID: {item.SurveyId}, Name: {item.Title}, Code: {item.SurveyCode}");
             }
+            PressEnterToContinue();
         }
 
-        public static void GetStatistics(SurveyManager surveyManager)
-        {
 
-        }
-
-          public static Dictionary<string, string> DefineAnswerScaleValues()
+        public static Dictionary<string, string> DefineAnswerScaleValues()
         {
             Dictionary<string, string> answerScale = new Dictionary<string, string>();
             answerScale.Add("1", "Strongly Disagree ");
@@ -399,7 +396,7 @@ namespace SSCEUP
             return answerScale;
         }
 
-        public static void PrintAnswerScale(Dictionary<string,string> answerScale )
+        public static void PrintAnswerScale(Dictionary<string, string> answerScale)
         {
             foreach (var item in answerScale)
             {
@@ -408,8 +405,66 @@ namespace SSCEUP
             System.Console.Write("\nYour answer: ");
         }
 
+
+        public static void GetStatistics(SurveyManager surveyManager)
+        {
+
+
+
+            Console.WriteLine("Welcome to Statistics");
+            while (true)
+            {
+                int surveyId = ValidateInt("Input Survey ID:");
+                List<Statistic> listOfStatistics = surveyManager.GetStatistic(surveyId);
+                Console.WriteLine("Survey: " + listOfStatistics[surveyId - 1].Title);
+
+                if (surveyId <= listOfStatistics.Count + 1 && surveyId > 0)
+                {
+                    foreach (var item in listOfStatistics)
+                    {
+                        if (item.IsYesNoQuestion == true)
+                        {
+                            Console.WriteLine($"Question: {item.Text} \nYes in Procent {item.YESPROCENT}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Question: {item.Text} \nAVG: {item.AVG} \nMAX: {item.MAX} \nMIN: {item.MIN}");
+                        }
+                    }
+                    PressEnterToContinue();
+                    break;
+                }
+                else
+                {
+                    System.Console.WriteLine("Invalid Survey Id.");
+                    PressEnterToContinue();
+                }
+            }
+        }
+
+
+        public static int ValidateInt(string message)
+        {
+            int intToValidate = 0;
+            bool isNotConverted = true;
+            while (isNotConverted)
+            {
+                Console.WriteLine(message);
+                try
+                {
+                    intToValidate = Convert.ToInt32(Console.ReadLine());
+                    isNotConverted = false;
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("Error! " + e.Message);
+                    System.Console.WriteLine("Try again.");
+                }
+            }
+            return intToValidate;
+        }
+
+
+ 
     }
 }
-
-
-

@@ -99,7 +99,7 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Survey>("SELECT SurveyId, SurveyCode FROM SURVEY");
+                return connection.Query<Survey>("SELECT SurveyId, Title, SurveyCode FROM SURVEY");
             }
         }
     }
