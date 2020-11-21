@@ -28,38 +28,12 @@ namespace SSCEUP
                 string inputName = Console.ReadLine().ToLower();
                 System.Console.WriteLine("Enter Password");
                 string inputPass = Console.ReadLine().ToLower();
-                try
-                {
-                    loginauth.CheckLoginInfo(inputName, inputPass);
-                }
-                catch (IndexOutOfRangeException e)
-                {
-                    Console.WriteLine("The input parameter(username or password) was really strange, and therefore error." + e);
-                    Console.ReadKey();
-                    Console.WriteLine(e);
-                }
-                // catch (ArgumentNullException e)  //tar över om man skriver fel username
-                // {
-                //     Console.WriteLine($"You didn't fill in any information!");
-                //     Console.ReadKey();
-                //     Console.WriteLine(e);
-                // }
-                catch (System.Data.SqlClient.SqlException e)
-                {
-                    Console.WriteLine("There is something off with the database. I can't really see what from here..");
-                    Console.ReadKey();
-                    Console.WriteLine(e);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Something went wrong...press key to read error message");
-                    Console.ReadKey();
-                    Console.WriteLine(e);
-                }
+                loginauth.CheckLoginInfo(inputName, inputPass);
 
-                if (loginauth.CheckLoginInfo(inputName, inputPass) == 1)
+                if (loginauth.CheckLoginInfo(inputName, inputPass) == 1 || inputName == null)
                 {
                     System.Console.WriteLine("Username or Password was incorrect");
+                    PressEnterToContinue();
                     if (loginAttempts >= 3)
                     {
                         Console.Clear();
@@ -86,7 +60,7 @@ namespace SSCEUP
 
             while (true)
             {
-                // User Menu
+                // user menu
                 Console.Clear();
                 System.Console.WriteLine("\tOptions\n[D]o Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
@@ -118,7 +92,7 @@ namespace SSCEUP
             {
                 // Admin Menu
                 Console.Clear();
-                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[L]ist Surveys\n[G]et Statistics\n[R]emove Survey\n[Q]uit");
+                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[L]ist Surveys\n[G]et Statistics\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
@@ -157,8 +131,8 @@ namespace SSCEUP
         {
             Console.Clear();
             string surveyCode = "";
-            bool isCodeNotFound = true;
-            while (isCodeNotFound)
+            bool isCodeFound = false;
+            while (!isCodeFound)
             {
                 Console.Clear();
                 System.Console.WriteLine("Input given surveycode:");
@@ -166,7 +140,11 @@ namespace SSCEUP
                 bool exists = surveyManager.CheckSurveyCode(surveyCode);
                 if (exists == true)
                 {
-                    isCodeNotFound = false;
+                    Console.Clear();
+                    isCodeFound = true;
+                    System.Console.Write("Survey Name: ");
+                    System.Console.Write(surveyManager.GetSurvey(surveyCode) + "\n");
+                    PressEnterToContinue();
                 }
                 else
                 {
@@ -186,10 +164,12 @@ namespace SSCEUP
                 System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}\n");
                 if (question.IsYesNoQuestion == true)
                 {
+                    Console.Clear();
                     while (!validChoice)
                     {
-
-                        System.Console.WriteLine("\n [Y] or [N]");
+                        System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}\n");
+                        System.Console.WriteLine("\n [Y] or [N]\n");
+                        System.Console.Write("Answer: ");
                         string choice = Console.ReadLine().ToUpper().Trim();
                         if (choice == "Y")
                         {
@@ -213,10 +193,10 @@ namespace SSCEUP
                 {
 
                     PrintAnswerScale(answerScale);
-
+                    Console.Clear();
                     while (!validChoice)
                     {
-
+                        PrintAnswerScale(answerScale);
                         int userInput = 0;
                         try
                         {
@@ -235,6 +215,7 @@ namespace SSCEUP
                         {
                             Console.Clear();
                             System.Console.WriteLine("Input should preferably be a number and between 1-5 ");
+                            PressEnterToContinue();
                         }
 
                     }
@@ -344,37 +325,6 @@ namespace SSCEUP
         }
 
 
-        public static int GetInt(string message)
-        {
-            string stringInput = "";
-            int value = 0;
-            bool flag = true;
-
-            while (flag == true)
-            {
-                Console.WriteLine(message);
-                stringInput = Console.ReadLine().Trim();
-                try
-                {
-                    value = Convert.ToInt32(stringInput);
-                    flag = false;
-                }
-                catch
-                {
-                    Console.WriteLine($"ERROR! {stringInput} is not a valid integer.");
-                    flag = true;
-                }
-            }
-
-            // Console.WriteLine(message);
-            // while (!int.TryParse(stringInput, out value))
-            // {
-            //     Console.WriteLine($"{stringInput} is not a valid integer. put in a number.");
-            // }
-
-            return value;
-        }
-
         public static void PrintSurveys(SurveyManager surveyManager)
         {
             foreach (var item in surveyManager.GetSurveys())
@@ -402,7 +352,7 @@ namespace SSCEUP
             {
                 Console.Write("[{0}]{1} ", item.Key, item.Value);
             }
-            System.Console.Write("\nYour answer: ");
+            System.Console.Write("\n\nAnswer: ");
         }
 
 
@@ -465,6 +415,6 @@ namespace SSCEUP
         }
 
 
- 
+
     }
 }

@@ -57,7 +57,7 @@ namespace SSCEUPClassLibrary
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
-                return connection.Query<Survey>("SELECT SurveyCode FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode });
+                return connection.Query<Survey>("SELECT SurveyCode, Title FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode });
 
             }
         }
