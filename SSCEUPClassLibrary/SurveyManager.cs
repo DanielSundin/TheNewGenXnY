@@ -58,5 +58,17 @@ namespace SSCEUPClassLibrary
             List<Survey> surveys = new List<Survey>(db.GetSurveysFromDB());
             return surveys;
         }
+
+        public string GetSurvey(string surveyCode)
+        {
+            Survey survey = db.GetSurveyCodeFromDB(surveyCode).FirstOrDefault();
+            return survey.Title;
+        }
+
+        // public Survey GetSurveyTitle(string surveyCode)
+        // {
+        //     Survey surveyTitle = db.GetSurveyTitleFromDB();
+        //     return surveyTitle
+        // }
     }
 }
