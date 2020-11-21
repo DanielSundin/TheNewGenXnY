@@ -43,11 +43,11 @@ namespace SSCEUPClassLibrary
             }
         }
 
-        internal int GetSurveyIdFromDB(string title)
+        internal int GetSurveyIdFromDB(string surveyCode)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                var output = connection.Query<Survey>("SELECT SurveyId FROM SURVEY WHERE Title = @Title", new { Title = title }).FirstOrDefault();
+                var output = connection.Query<Survey>("SELECT SurveyId FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode }).FirstOrDefault();
                 return output.SurveyId;
             }
         }
@@ -90,8 +90,16 @@ namespace SSCEUPClassLibrary
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
-                return connection.Query<Statistic>("EXEC [dbo].[spQuestion_GetStatistic] @SurveyId", new { SurveyId = surveyId }).FirstOrDefault();
+                return connection.Query<Statistic>("EXEC [dbo].[spQuestion_GetStatistic] @SurveyId", new { SurveyId = surveyId }).ToList();
 
+            }
+        }
+
+        internal IEnumerable<Survey> GetSurveysFromDB()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<Survey>("SELECT SurveyId, Title, SurveyCode FROM SURVEY");
             }
         }
     }
