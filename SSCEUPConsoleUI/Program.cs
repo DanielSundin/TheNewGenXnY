@@ -222,22 +222,22 @@ namespace SSCEUP
 
                     while (!validChoice)
                     {
-                       int userInput=7;
-                       try
-                       {
+                        int userInput = 7;
+                        try
+                        {
                             userInput = Convert.ToInt32(Console.ReadLine());
-                       }
-                       catch (System.Exception e)
-                       {
+                        }
+                        catch (System.Exception e)
+                        {
                             System.Console.WriteLine("Error! " + e.Message);
                             System.Console.WriteLine("Try again.");
-                       }
-                        if(userInput >0 && userInput <6)
+                        }
+                        if (userInput > 0 && userInput < 6)
                         {
                             answers.Add(new Answer(question.QuestionId, userInput));
                             validChoice = true;
                         }
-                             
+
                     }
                 }
             }
@@ -382,18 +382,68 @@ namespace SSCEUP
 
             return value;
         }
-        
+
         public static void PrintSurveys(SurveyManager surveyManager)
         {
             foreach (var item in surveyManager.GetSurveys())
             {
-                System.Console.WriteLine(item.SurveyId + " " + item.Title);
+                System.Console.WriteLine($"ID: {item.SurveyId}, Name: {item.Title}, Code: {item.SurveyCode}");
             }
+            PressEnterToContinue();
         }
 
         public static void GetStatistics(SurveyManager surveyManager)
         {
-            
+            Console.WriteLine("Welcome to Statistics");
+            while (true)
+            {
+                int surveyId = ValidateInt("Input Survey ID:");
+                List<Statistic> listOfStatistics = surveyManager.GetStatistic(surveyId);
+                Console.WriteLine("Survey: " +listOfStatistics[surveyId-1].Title);
+
+                if (surveyId <= listOfStatistics.Count + 1 && surveyId > 0)
+                {
+                    foreach (var item in listOfStatistics)
+                    {
+                        if (item.IsYesNoQuestion == true)
+                        {
+                            Console.WriteLine($"Question: {item.Text} \nYes in Procent {item.YESPROCENT}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Question: {item.Text} \nAVG: {item.AVG} \nMAX: {item.MAX} \nMIN: {item.MIN}");
+                        }
+                    }
+                    PressEnterToContinue();
+                    break;
+                }
+                else
+                {
+                    System.Console.WriteLine("Invalid Survey Id.");
+                    PressEnterToContinue();
+                }
+            }
+        }
+
+        public static int ValidateInt(string message)
+        {
+            int intToValidate = 0;
+            bool isNotConverted = true;
+            while (isNotConverted)
+            {
+                Console.WriteLine(message);
+                try
+                {
+                    intToValidate = Convert.ToInt32(Console.ReadLine());
+                    isNotConverted = false;
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("Error! " + e.Message);
+                    System.Console.WriteLine("Try again.");
+                }
+            }
+            return intToValidate;
         }
 
         // private string Validate(string input)
@@ -423,7 +473,7 @@ namespace SSCEUP
         // }
         //  }
 
- 
-        }
+
     }
+}
 // }
