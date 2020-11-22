@@ -7,10 +7,10 @@ namespace SSCEUPClassLibrary
         public bool IsYesNoQuestion { get; set; }
         public string Text { get; set; }
 
-        // public Question()
-        // {
+        public Question()
+        {
             
-        // }         
+        }         
 
         public Question(int surveyId, bool isYesNoQuestion,string text)
         {
