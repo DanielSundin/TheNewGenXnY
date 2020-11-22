@@ -158,6 +158,7 @@ namespace SSCEUP
             Console.Clear();
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
             List<Answer> answers = new List<Answer>();
+            int QuestionCounter =1;
             foreach (var question in ListOfquestions)
             {
                 bool validChoice = false;
@@ -166,7 +167,7 @@ namespace SSCEUP
                     Console.Clear();
                     while (!validChoice)
                     {
-                        System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}\n");
+                        System.Console.WriteLine($"Question {QuestionCounter.ToString()} :  {question.Text}\n");
                         System.Console.WriteLine("\n [Y] or [N]\n");
                         System.Console.Write("Answer: ");
                         string choice = Console.ReadLine().ToUpper().Trim();
@@ -194,7 +195,7 @@ namespace SSCEUP
                     Console.Clear();
                     while (!validChoice)
                     {
-                        System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}\n");
+                        System.Console.WriteLine($"Question {QuestionCounter.ToString()} :  {question.Text}\n");
                         PrintAnswerScale(answerScale);
                         int userInput = 0;
                         try
@@ -219,6 +220,7 @@ namespace SSCEUP
 
                     }
                 }
+                QuestionCounter ++ ;
             }
             Console.Clear();
             surveyManager.InsertAnswers(answers);
