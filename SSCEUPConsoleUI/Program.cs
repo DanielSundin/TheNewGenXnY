@@ -144,7 +144,7 @@ namespace SSCEUP
                     Console.Clear();
                     isCodeFound = true;
                     System.Console.Write("Survey Name: ");
-                    System.Console.Write(surveyManager.GetSurvey(surveyCode) + "\n");
+                    System.Console.Write(surveyManager.GetSurveyTitle(surveyCode) + "\n");
                     PressEnterToContinue();
                 }
                 else
@@ -164,7 +164,7 @@ namespace SSCEUP
                 bool validChoice = false;
                 if (question.IsYesNoQuestion == true)
                 {
-                    Console.Clear();
+                    Console.Clear(); 
                     while (!validChoice)
                     {
                         System.Console.WriteLine($"Question {QuestionCounter.ToString()} :  {question.Text}\n");
@@ -190,7 +190,7 @@ namespace SSCEUP
                 }
 
                 else if (question.IsYesNoQuestion == false)
-                {
+                { 
 
                     Console.Clear();
                     while (!validChoice)
@@ -224,6 +224,7 @@ namespace SSCEUP
             }
             Console.Clear();
             surveyManager.InsertAnswers(answers);
+            surveyManager.InsertUserandSurveyintoDB(userID, surveyManager.GetSurveyId(surveyCode));
             System.Console.WriteLine("Thank you for participating, have a nice day!");
             PressEnterToContinue();
 
