@@ -22,7 +22,7 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<User>("SELECT UserName,UserPass,IsAdmin FROM [USER] WHERE UserName = @userName", new { UserName = userName });
+                return connection.Query<User>("SELECT UserId,UserName,UserPass,IsAdmin FROM [USER] WHERE UserName = @userName", new { UserName = userName });
             }
         }
 
@@ -100,6 +100,22 @@ namespace SSCEUPClassLibrary
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 return connection.Query<Survey>("SELECT SurveyId, Title, SurveyCode FROM SURVEY");
+            }
+        }
+
+        internal void InsertIntoUserSurvey(int userId, int surveyId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Execute("INSERT INTO USER_SURVEY (UserId, SurveyId) VALUES (@userId, @surveyId)", new {userId, surveyId});
+            }
+        }
+
+        internal IEnumerable<int> CheckUserIDAndSurveyId(int userId, int surveyId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                return connection.Query<int>("SELECT UserId, SurveyId FROM USER_SURVEY WHERE UserId = @userId AND SurveyId = @survey", new {UserId = userId, SurveyId = surveyId} );
             }
         }
     }
