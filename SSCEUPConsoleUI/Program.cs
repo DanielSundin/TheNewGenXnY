@@ -257,7 +257,7 @@ namespace SSCEUP
                 PressEnterToContinue();
                 return;
             }
-            ColorTheText("green", "Survey Code?\n");
+            ColorTheText("green", "Survey Code, max 10 characters?\n");
             string surveyCode = Console.ReadLine();
             if (string.IsNullOrEmpty(surveyCode) == true)
             {
@@ -281,7 +281,7 @@ namespace SSCEUP
                     PressEnterToContinue();
                     return;
                 }
-                ColorTheText("green", "Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
+                ColorTheText("green", "Is this a [Y]es or no question or a [S]cale question");
                 string choice = Console.ReadLine().ToUpper().Trim();
 
                 switch (choice)
@@ -289,7 +289,7 @@ namespace SSCEUP
                     case "Y":
                         questions.Add(new Question(surveyid, true, input));
                         break;
-                    case "N":
+                    case "S":
                         questions.Add(new Question(surveyid, false, input));
                         break;
                     default:
@@ -314,14 +314,14 @@ namespace SSCEUP
                         }
                         catch (System.Data.SqlClient.SqlException e)
                         {
-                            Console.WriteLine("There is something off with the database. I can't really see what from here..");
+                            ColorTheText("red","There is something off with the database. I can't really see what from here..");
                             Console.ReadKey();
                             Console.WriteLine(e);
                             return;
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("Something went wrong...press key to read error message");
+                            ColorTheText("red","Something went wrong...press key to read error message");
                             Console.ReadKey();
                             Console.WriteLine(e);
                             return;
@@ -334,7 +334,7 @@ namespace SSCEUP
                     }
                     else
                     {
-                        Console.WriteLine("Does that mean NO? Please confirm (Y/N)");
+                        ColorTheText("red","Does that mean NO? Please confirm (Y/N)");
                         isDone = false;
                         continue;
                     }
