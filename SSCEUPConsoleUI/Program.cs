@@ -13,7 +13,7 @@ namespace SSCEUP
 
         static void Main(string[] args)
         {
-            //StartupMessage();
+            StartupMessage();
             RunLogin();
         }
         private static string currentUser = "";
@@ -240,6 +240,7 @@ namespace SSCEUP
                 QuestionCounter++;
             }
             Console.Clear();
+            surveyManager.InsertUserIdAndSurveyIdToUserSurvey(surveyManager.GetUserId(currentUser), surveyManager.GetSurveyId(surveyCode));
             surveyManager.InsertAnswers(answers);
             ColorTheText("cyan","Thank you for participating, have a nice day!\n");
             PressEnterToContinue();
@@ -349,7 +350,8 @@ namespace SSCEUP
             {
                 System.Console.WriteLine($"ID: {item.SurveyId}, Name: {item.Title}, Code: {item.SurveyCode}");
             }
-            PressEnterToContinue();
+            ColorTheText("blue","\nPress ENTER to continue.");
+            Console.ReadLine();
         }
 
 
