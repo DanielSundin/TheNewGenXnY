@@ -80,7 +80,8 @@ namespace SSCEUP
                     default:
                         {
                             Console.WriteLine("Invalid Choice!");
-                            return;
+                            PressEnterToContinue();
+                            break;
                         }
                 }
             }
