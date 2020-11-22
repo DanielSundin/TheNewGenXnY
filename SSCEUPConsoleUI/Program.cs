@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SSCEUPClassLibrary;
 
 
+
 namespace SSCEUP
 {
     class Program
@@ -27,38 +28,12 @@ namespace SSCEUP
                 string inputName = Console.ReadLine().ToLower();
                 System.Console.WriteLine("Enter Password");
                 string inputPass = Console.ReadLine().ToLower();
-                try
-                {
-                    loginauth.CheckLoginInfo(inputName, inputPass);
-                }
-                catch (IndexOutOfRangeException e)
-                {
-                    Console.WriteLine("The input parameter(username or password) was really strange, and therefore error." + e);
-                    Console.ReadKey();
-                    Console.WriteLine(e);
-                }
-                catch (ArgumentNullException e)
-                {
-                    Console.WriteLine($"You didn't fill in any information!");
-                    Console.ReadKey();
-                    Console.WriteLine(e);
-                }
-                catch (System.Data.SqlClient.SqlException e)
-                {
-                    Console.WriteLine("There is something off with the database. I can't really see what from here..");
-                    Console.ReadKey();
-                    Console.WriteLine(e);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Something went wrong...press key to read error message");
-                    Console.ReadKey();
-                    Console.WriteLine(e);
-                }
+                loginauth.CheckLoginInfo(inputName, inputPass);
 
-                if (loginauth.CheckLoginInfo(inputName, inputPass) == 1)
+                if (loginauth.CheckLoginInfo(inputName, inputPass) == 1 || inputName == null)
                 {
                     System.Console.WriteLine("Username or Password was incorrect");
+                    PressEnterToContinue();
                     if (loginAttempts >= 3)
                     {
                         Console.Clear();
@@ -81,9 +56,12 @@ namespace SSCEUP
 
         private static void RunUserMode(SurveyManager surveyManager)
         {
+            Dictionary<string, string> answerScale = DefineAnswerScaleValues();
+
             while (true)
             {
-                // User Menu
+                // user menu
+                Console.Clear();
                 System.Console.WriteLine("\tOptions\n[D]o Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
@@ -91,7 +69,7 @@ namespace SSCEUP
                     case "D":
                         {
                             Console.Clear();
-                            DoSurvey(surveyManager);
+                            DoSurvey(surveyManager, answerScale);
                             break;
                         }
                     case "Q":
@@ -114,7 +92,7 @@ namespace SSCEUP
             {
                 // Admin Menu
                 Console.Clear();
-                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[D]o Survey\n[R]emove Survey\n[Q]uit");
+                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[L]ist Surveys\n[G]et Statistics\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
@@ -124,10 +102,17 @@ namespace SSCEUP
                             CreateSurvey(surveyManager);
                             break;
                         }
-                    case "D":
+                    case "L":
                         {
                             Console.Clear();
-                            DoSurvey(surveyManager);
+                            PrintSurveys(surveyManager);
+                            break;
+                        }
+                    case "G":
+                        {
+                            Console.Clear();
+                            PrintSurveys(surveyManager);
+                            GetStatistics(surveyManager);
                             break;
                         }
                     case "Q":
@@ -142,12 +127,12 @@ namespace SSCEUP
                 }
             }
         }
-        private static void DoSurvey(SurveyManager surveyManager)
+        private static void DoSurvey(SurveyManager surveyManager, Dictionary<string, string> answerScale)
         {
             Console.Clear();
             string surveyCode = "";
-            bool isCodeNotFound = true;
-            while (isCodeNotFound)
+            bool isCodeFound = false;
+            while (!isCodeFound)
             {
                 Console.Clear();
                 System.Console.WriteLine("Input given surveycode:");
@@ -155,7 +140,11 @@ namespace SSCEUP
                 bool exists = surveyManager.CheckSurveyCode(surveyCode);
                 if (exists == true)
                 {
-                    isCodeNotFound = false;
+                    Console.Clear();
+                    isCodeFound = true;
+                    System.Console.Write("Survey Name: ");
+                    System.Console.Write(surveyManager.GetSurvey(surveyCode) + "\n");
+                    PressEnterToContinue();
                 }
                 else
                 {
@@ -165,21 +154,20 @@ namespace SSCEUP
                 }
 
             }
-
+            Console.Clear();
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
             List<Answer> answers = new List<Answer>();
             foreach (var question in ListOfquestions)
             {
                 bool validChoice = false;
-                System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}");
                 if (question.IsYesNoQuestion == true)
                 {
-
-
+                    Console.Clear();
                     while (!validChoice)
                     {
-
-                        System.Console.WriteLine("\n [Y] or [N]");
+                        System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}\n");
+                        System.Console.WriteLine("\n [Y] or [N]\n");
+                        System.Console.Write("Answer: ");
                         string choice = Console.ReadLine().ToUpper().Trim();
                         if (choice == "Y")
                         {
@@ -202,26 +190,36 @@ namespace SSCEUP
                 else if (question.IsYesNoQuestion == false)
                 {
 
-                    foreach (var scaleChoice in Enum.GetValues(typeof(AnswerScale)))
-                    {
-                        System.Console.WriteLine($"{(int)scaleChoice}:  {scaleChoice}");
-                    }
-
+                    Console.Clear();
                     while (!validChoice)
                     {
-                        int userInput = Convert.ToInt32(Console.ReadLine());
-                        if (userInput >=1 || userInput <=5)
+                        System.Console.WriteLine($"Question {question.QuestionId.ToString()} :  {question.Text}\n");
+                        PrintAnswerScale(answerScale);
+                        int userInput = 0;
+                        try
+                        {
+                            userInput = Convert.ToInt32(Console.ReadLine());
+                        }
+                        catch
+                        {
+                            // System.Console.WriteLine("Error! " + e.Message);
+                        }
+                        if (userInput > 0 && userInput < 6)
                         {
                             answers.Add(new Answer(question.QuestionId, userInput));
                             validChoice = true;
                         }
                         else
                         {
-                            System.Console.WriteLine("Not a valid choice, 1-5 is enough");
+                            Console.Clear();
+                            System.Console.WriteLine("Input should preferably be a number and between 1-5 ");
+                            PressEnterToContinue();
                         }
+
                     }
                 }
             }
+            Console.Clear();
             surveyManager.InsertAnswers(answers);
             System.Console.WriteLine("Thank you for participating, have a nice day!");
             PressEnterToContinue();
@@ -250,7 +248,7 @@ namespace SSCEUP
 
             surveyManager.SaveSurveyName(surveyName, surveyCode);
             List<Question> questions = new List<Question>();
-            int surveyid = surveyManager.GetSurveyId(surveyName);
+            int surveyid = surveyManager.GetSurveyId(surveyCode);
 
             bool isDone = false;
             while (isDone == false)
@@ -324,74 +322,97 @@ namespace SSCEUP
             Console.Clear();
         }
 
-        public enum AnswerScale
+
+        public static void PrintSurveys(SurveyManager surveyManager)
         {
-            Horrible = 1,
-            Bad,
-            Neutral,
-            Good,
-            Great
+            foreach (var item in surveyManager.GetSurveys())
+            {
+                System.Console.WriteLine($"ID: {item.SurveyId}, Name: {item.Title}, Code: {item.SurveyCode}");
+            }
+            PressEnterToContinue();
         }
 
-        public static int GetInt(string message)
-        {
-            string stringInput = "";
-            int value = 0;
-            bool flag = true;
 
-            while (flag == true)
+        public static Dictionary<string, string> DefineAnswerScaleValues()
+        {
+            Dictionary<string, string> answerScale = new Dictionary<string, string>();
+            answerScale.Add("1", "Strongly Disagree ");
+            answerScale.Add("2", "Disagree ");
+            answerScale.Add("3", "Undecided ");
+            answerScale.Add("4", "Agree ");
+            answerScale.Add("5", "Strongly Agree ");
+            return answerScale;
+        }
+
+        public static void PrintAnswerScale(Dictionary<string, string> answerScale)
+        {
+            foreach (var item in answerScale)
             {
-                Console.WriteLine(message);
-                stringInput = Console.ReadLine().Trim();
-                try
+                Console.Write("[{0}]{1} ", item.Key, item.Value);
+            }
+            System.Console.Write("\n\nAnswer: ");
+        }
+
+
+        public static void GetStatistics(SurveyManager surveyManager)
+        {
+
+
+
+            Console.WriteLine("Welcome to Statistics");
+            while (true)
+            {
+                int surveyId = ValidateInt("Input Survey ID:");
+                List<Statistic> listOfStatistics = surveyManager.GetStatistic(surveyId);
+                Console.WriteLine("Survey: " + listOfStatistics[surveyId - 1].Title);
+
+                if (surveyId <= listOfStatistics.Count + 1 && surveyId > 0)
                 {
-                    value = Convert.ToInt32(stringInput);
-                    flag = false;
+                    foreach (var item in listOfStatistics)
+                    {
+                        if (item.IsYesNoQuestion == true)
+                        {
+                            Console.WriteLine($"Question: {item.Text} \nYes in Procent {item.YESPROCENT}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Question: {item.Text} \nAVG: {item.AVG} \nMAX: {item.MAX} \nMIN: {item.MIN}");
+                        }
+                    }
+                    PressEnterToContinue();
+                    break;
                 }
-                catch
+                else
                 {
-                    Console.WriteLine($"ERROR! {stringInput} is not a valid integer.");
-                    flag = true;
+                    System.Console.WriteLine("Invalid Survey Id.");
+                    PressEnterToContinue();
                 }
             }
+        }
 
-            // Console.WriteLine(message);
-            // while (!int.TryParse(stringInput, out value))
-            // {
-            //     Console.WriteLine($"{stringInput} is not a valid integer. put in a number.");
-            // }
 
-            return value;
+        public static int ValidateInt(string message)
+        {
+            int intToValidate = 0;
+            bool isNotConverted = true;
+            while (isNotConverted)
+            {
+                Console.WriteLine(message);
+                try
+                {
+                    intToValidate = Convert.ToInt32(Console.ReadLine());
+                    isNotConverted = false;
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("Error! " + e.Message);
+                    System.Console.WriteLine("Try again.");
+                }
+            }
+            return intToValidate;
         }
 
 
 
-
-        // private string Validate(string input)
-        // {
-
-        // try
-        // {
-
-        // }
-        // catch (IndexOutOfRangeException e)
-        // {
-        //     Console.WriteLine("The input parameter was really strange, and therefore error." + e);
-        //     Console.ReadKey();
-        //     Console.WriteLine(e);
-        // }
-        // catch (ArgumentNullException e)
-        // {
-        //     Console.WriteLine($"You didn't fill in any information!");
-        //     Console.ReadKey();
-        //     Console.WriteLine(e);
-        // }
-        // catch (Exception e)
-        // {
-        //     Console.WriteLine("Something went wrong...press key to read error message");
-        //     Console.ReadKey();
-        //     Console.WriteLine(e);
-        // }
-        //  }
     }
 }
