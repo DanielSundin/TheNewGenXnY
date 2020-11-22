@@ -18,9 +18,10 @@ namespace SSCEUP
         }
         private static string currentUser = "";
 
-        public static string CurrentUser 
-        { get {return currentUser;} 
-        set { currentUser = value; }
+        public static string CurrentUser
+        {
+            get { return currentUser; }
+            set { currentUser = value; }
         }
         private static void RunLogin()
         {   
@@ -49,12 +50,12 @@ namespace SSCEUP
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == 2)
                 {
-                    CurrentUser=inputName;
+                    CurrentUser = inputName;
                     RunUserMode(surveyManager);
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == 3)
                 {
-                    CurrentUser=inputName;
+                    CurrentUser = inputName;
                     RunAdminMode(surveyManager);
                 }
             }
@@ -147,10 +148,21 @@ namespace SSCEUP
                 bool exists = surveyManager.CheckSurveyCode(surveyCode);
                 if (exists == true)
                 {
-                    Console.Clear();
-                    isCodeFound = true;
-                    ColorTheText("green", "Survey name: "+surveyManager.GetSurveyTitle(surveyCode));
-                    PressEnterToContinue();
+
+                    if (surveyManager.CheckUIdAndSIdAgainstDB(surveyManager.GetUserId(currentUser), surveyManager.GetSurveyId(surveyCode)) == false)
+                    {
+                        Console.Clear();
+                        isCodeFound = true;
+                        ColorTheText("green", "Survey name: "+surveyManager.GetSurveyTitle(surveyCode));
+                        PressEnterToContinue();
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("You have already done this survey.");
+                        PressEnterToContinue();
+                        return;
+                    }
+
                 }
                 else
                 {
@@ -169,7 +181,7 @@ namespace SSCEUP
                 bool validChoice = false;
                 if (question.IsYesNoQuestion == true)
                 {
-                    Console.Clear(); 
+                    Console.Clear();
                     while (!validChoice)
                     {
                         ColorTheText("cyan",$"Question {QuestionCounter.ToString()} :  {question.Text}\n\n");
@@ -195,7 +207,7 @@ namespace SSCEUP
                 }
 
                 else if (question.IsYesNoQuestion == false)
-                { 
+                {
 
                     Console.Clear();
                     while (!validChoice)
