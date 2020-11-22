@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using Figgle;
 using SSCEUPClassLibrary;
 
 
@@ -11,34 +13,31 @@ namespace SSCEUP
 
         static void Main(string[] args)
         {
+            //StartupMessage();
             RunLogin();
         }
 
         private static void RunLogin()
-        {
+        {   
             LoginAuthentication loginauth = new LoginAuthentication();
             SurveyManager surveyManager = new SurveyManager();
-            Console.ForegroundColor = ConsoleColor.Green;
-            System.Console.WriteLine("\nLOGIN PROMPT\n");
-            Console.ResetColor();
-
+            ColorTheText("green","\nLOGIN PROMPT\n");
             for (int loginAttempts = 1; loginAttempts <= 3; loginAttempts++)
             {
-                System.Console.WriteLine("Enter Username");
+                ColorTheText("cyan","Enter Username");
                 string inputName = Console.ReadLine().ToLower();
-                System.Console.WriteLine("Enter Password");
+                ColorTheText("cyan","Enter Password");
                 string inputPass = Console.ReadLine().ToLower();
                 loginauth.CheckLoginInfo(inputName, inputPass);
 
                 if (loginauth.CheckLoginInfo(inputName, inputPass) == 1 || inputName == null)
                 {
-                    System.Console.WriteLine("Username or Password was incorrect");
+                    ColorTheText("red","Username or Password was incorrect");
                     PressEnterToContinue();
                     if (loginAttempts >= 3)
                     {
                         Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        System.Console.WriteLine("Too many attempts, try again later.");
+                        ColorTheText("red","Too many attempts,try again later.");
                         Environment.Exit(0);
                     }
 
@@ -62,7 +61,7 @@ namespace SSCEUP
             {
                 // user menu
                 Console.Clear();
-                System.Console.WriteLine("\tOptions\n[D]o Survey\n[Q]uit");
+                ColorTheText("green","\tOptions\n[D]o Survey\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
@@ -79,7 +78,7 @@ namespace SSCEUP
                         }
                     default:
                         {
-                            Console.WriteLine("Invalid Choice!");
+                            ColorTheText("red","Invalid Choice!");
                             PressEnterToContinue();
                             break;
                         }
@@ -93,7 +92,7 @@ namespace SSCEUP
             {
                 // Admin Menu
                 Console.Clear();
-                System.Console.WriteLine("\tOptions\n[A]dd Survey\n[L]ist Surveys\n[G]et Statistics\n[Q]uit");
+                ColorTheText("green","\tOptions\n[A]dd Survey\n[L]ist Surveys\n[G]et Statistics\n[Q]uit");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
@@ -122,7 +121,7 @@ namespace SSCEUP
                             break;
                         }
                     default:
-                        Console.WriteLine("Returning you to menu - try choosing a valid menu option");
+                        ColorTheText("red","Returning you to menu - try choosing a valid menu option");
                         RunAdminMode(surveyManager);
                         return;
                 }
@@ -136,20 +135,19 @@ namespace SSCEUP
             while (!isCodeFound)
             {
                 Console.Clear();
-                System.Console.WriteLine("Input given surveycode:");
+                ColorTheText("green","Input given surveycode: ");
                 surveyCode = Console.ReadLine();
                 bool exists = surveyManager.CheckSurveyCode(surveyCode);
                 if (exists == true)
                 {
                     Console.Clear();
                     isCodeFound = true;
-                    System.Console.Write("Survey Name: ");
-                    System.Console.Write(surveyManager.GetSurvey(surveyCode) + "\n");
+                    ColorTheText("green", "Survey name: "+surveyManager.GetSurvey(surveyCode));
                     PressEnterToContinue();
                 }
                 else
                 {
-                    System.Console.WriteLine("Code not found");
+                    ColorTheText("red", "Code not found");
                     PressEnterToContinue();
                     return;
                 }
@@ -158,7 +156,7 @@ namespace SSCEUP
             Console.Clear();
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
             List<Answer> answers = new List<Answer>();
-            int QuestionCounter =1;
+            int QuestionCounter = 1;
             foreach (var question in ListOfquestions)
             {
                 bool validChoice = false;
@@ -167,7 +165,7 @@ namespace SSCEUP
                     Console.Clear();
                     while (!validChoice)
                     {
-                        System.Console.WriteLine($"Question {QuestionCounter.ToString()} :  {question.Text}\n");
+                        System.Console.WriteLine($"Question {QuestionCounter.ToString()} :  {question.Text}");
                         System.Console.WriteLine("\n [Y] or [N]\n");
                         System.Console.Write("Answer: ");
                         string choice = Console.ReadLine().ToUpper().Trim();
@@ -183,7 +181,7 @@ namespace SSCEUP
                         }
                         else
                         {
-                            System.Console.WriteLine("Not a valid option");
+                            ColorTheText("red","Not a valid option");
                             PressEnterToContinue();
                         }
                     }
@@ -214,37 +212,36 @@ namespace SSCEUP
                         else
                         {
                             Console.Clear();
-                            System.Console.WriteLine("Input should preferably be a number and between 1-5 ");
+                            ColorTheText("red","Input should preferably be a number and between 1-5");
                             PressEnterToContinue();
                         }
 
                     }
                 }
-                QuestionCounter ++ ;
+                QuestionCounter++;
             }
             Console.Clear();
             surveyManager.InsertAnswers(answers);
-            System.Console.WriteLine("Thank you for participating, have a nice day!");
+            ColorTheText("blue","Thank you for participating, have a nice day!");
             PressEnterToContinue();
 
         }
 
         public static void CreateSurvey(SurveyManager surveyManager)
         {
-
-            Console.WriteLine("What do you want to name the survey?");
+            ColorTheText("green","What do you want to name the survey?");
             string surveyName = Console.ReadLine();
             if (string.IsNullOrEmpty(surveyName) == true)
             {
-                Console.WriteLine("The survey name cannot be blank.");
+                ColorTheText("red","The survey name cannot be blank.");
                 PressEnterToContinue();
                 return;
             }
-            Console.WriteLine("Survey Code?");
+            ColorTheText("green","Survey Code?");
             string surveyCode = Console.ReadLine();
             if (string.IsNullOrEmpty(surveyCode) == true)
             {
-                Console.WriteLine("The survey code cannot be blank.");
+                ColorTheText("red", "The survey code cannot be blank.");
                 PressEnterToContinue();
                 return;
             }
@@ -256,15 +253,15 @@ namespace SSCEUP
             bool isDone = false;
             while (isDone == false)
             {
-                Console.WriteLine("What is the question?");
+                ColorTheText("green","What is the question?");
                 string input = Console.ReadLine();
                 if (string.IsNullOrEmpty(input) == true)
                 {
-                    Console.WriteLine("The question cannot be blank.");
+                    ColorTheText("red","The question cannot be blank.");
                     PressEnterToContinue();
                     return;
                 }
-                Console.WriteLine("Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
+                ColorTheText("green","Is this a Yes/No Question? No will make the question a scaled question.\n(Y/N)\n");
                 string choice = Console.ReadLine().ToUpper().Trim();
 
                 switch (choice)
@@ -276,7 +273,7 @@ namespace SSCEUP
                         questions.Add(new Question(surveyid, false, input));
                         break;
                     default:
-                        Console.WriteLine("If you dont know if this is a yes or no question or not, maybe you should rephrase the question!");
+                        ColorTheText("red","If you dont know if this is a yes or no question or not, maybe you should rephrase the question!");
                         PressEnterToContinue();
                         continue;
                 }
@@ -320,7 +317,7 @@ namespace SSCEUP
 
         private static void PressEnterToContinue()
         {
-            Console.WriteLine("\nPress ENTER to continue.");
+            ColorTheText("blue","\nPress ENTER to continue.");
             Console.ReadLine();
             Console.Clear();
         }
@@ -328,6 +325,7 @@ namespace SSCEUP
 
         public static void PrintSurveys(SurveyManager surveyManager)
         {
+            Console.ForegroundColor=ConsoleColor.Green;
             foreach (var item in surveyManager.GetSurveys())
             {
                 System.Console.WriteLine($"ID: {item.SurveyId}, Name: {item.Title}, Code: {item.SurveyCode}");
@@ -349,19 +347,19 @@ namespace SSCEUP
 
         public static void PrintAnswerScale(Dictionary<string, string> answerScale)
         {
+            Console.ForegroundColor=ConsoleColor.Green;
             foreach (var item in answerScale)
             {
                 Console.Write("[{0}]{1} ", item.Key, item.Value);
             }
             System.Console.Write("\n\nAnswer: ");
+            Console.ResetColor();
         }
 
 
         public static void GetStatistics(SurveyManager surveyManager)
         {
-
-
-
+            Console.ForegroundColor=ConsoleColor.Green;
             Console.WriteLine("Welcome to Statistics");
             while (true)
             {
@@ -387,7 +385,7 @@ namespace SSCEUP
                 }
                 else
                 {
-                    System.Console.WriteLine("Invalid Survey Id.");
+                    ColorTheText("red","Invalid Survey Id.");
                     PressEnterToContinue();
                 }
             }
@@ -408,14 +406,128 @@ namespace SSCEUP
                 }
                 catch (Exception e)
                 {
-                    System.Console.WriteLine("Error! " + e.Message);
-                    System.Console.WriteLine("Try again.");
+                    ColorTheText("red","Error! " + e.Message);
+                    ColorTheText("red","Try again.");
                 }
             }
             return intToValidate;
         }
 
+        public static void StartupMessage()
+        {
+            Console.Clear();
+            ColorTheAscII("red","GenXnY");
 
+            List<string> presentList = new List<string>()
+             { 
+              "P","r","o","u","d","l","y",
+              " ",
+              "P", "r", "e", "s", "e", "n", "t", "s",
+              ".",".",".",
+             };
+
+            List<string> ssceupList = new List<string>()
+             {
+              "S","t","a","t","e","n","s",
+              " ",
+              "S", "t", "a", "t", "i", "s", "t", "i","s","k","a",
+              " ",
+              "C","e","n","t","r","a","l","b","y","r","å","s",
+              " ",
+              "E","l","e","k","t","r","o","n","i","s","k","a",
+              " ",
+              "U","n","d","e","r","s","ö","k","n","i","n","g","s","p","l","a","t","t","f","o","r","m",
+             };
+
+            foreach (var item in presentList)
+            {
+                Thread.Sleep(100);
+                ColorTheText("green",item);
+            }
+            Thread.Sleep(2500);
+            
+            Console.Clear();
+            ColorTheAscII("green","SSCEUP");
+            Thread.Sleep(250);
+            Console.Clear();
+            ColorTheAscII("red", "SSCEUP");
+            Thread.Sleep(250);
+            Console.Clear();
+            ColorTheAscII("cyan", "SSCEUP");
+            Thread.Sleep(250);
+            Console.Clear();
+            ColorTheAscII("blue", "SSCEUP");
+            Thread.Sleep(250);
+
+            foreach (var item in ssceupList)
+            {
+                Thread.Sleep(100);
+                ColorTheText("green", item);
+            }
+            PressEnterToContinue();
+        }
+
+        private static void ColorTheText(string color ,string text)
+        {
+            switch (color.ToLower())
+            {
+                case "red":
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+
+                case "cyan":
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    break;
+
+                case "green":
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+
+                case "blue":
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+
+                case "magenta":
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    break;
+
+                default:
+                    break;
+            }
+            Console.Write($"{text}\n");
+            Console.ResetColor();
+        }
+
+        private static void ColorTheAscII(string color, string text)
+        {
+            switch (color.ToLower())
+            {
+                case "red":
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+
+                case "cyan":
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    break;
+
+                case "green":
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+
+                case "blue":
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+
+                case "magenta":
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    break;
+
+                default:
+                    break;
+            }
+            Console.WriteLine(FiggleFonts.Slant.Render(text));
+            Console.ResetColor();
+        }
 
     }
 }
