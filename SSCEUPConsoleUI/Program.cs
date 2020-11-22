@@ -16,7 +16,12 @@ namespace SSCEUP
             //StartupMessage();
             RunLogin();
         }
+        private static string currentUser = "";
 
+        public static string CurrentUser 
+        { get {return currentUser;} 
+        set { currentUser = value; }
+        }
         private static void RunLogin()
         {   
             LoginAuthentication loginauth = new LoginAuthentication();
@@ -44,10 +49,12 @@ namespace SSCEUP
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == 2)
                 {
+                    CurrentUser=inputName;
                     RunUserMode(surveyManager);
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == 3)
                 {
+                    CurrentUser=inputName;
                     RunAdminMode(surveyManager);
                 }
             }
@@ -142,7 +149,7 @@ namespace SSCEUP
                 {
                     Console.Clear();
                     isCodeFound = true;
-                    ColorTheText("green", "Survey name: "+surveyManager.GetSurvey(surveyCode));
+                    ColorTheText("green", "Survey name: "+surveyManager.GetSurveyTitle(surveyCode));
                     PressEnterToContinue();
                 }
                 else
@@ -162,7 +169,7 @@ namespace SSCEUP
                 bool validChoice = false;
                 if (question.IsYesNoQuestion == true)
                 {
-                    Console.Clear();
+                    Console.Clear(); 
                     while (!validChoice)
                     {
                         System.Console.WriteLine($"Question {QuestionCounter.ToString()} :  {question.Text}");
@@ -188,7 +195,7 @@ namespace SSCEUP
                 }
 
                 else if (question.IsYesNoQuestion == false)
-                {
+                { 
 
                     Console.Clear();
                     while (!validChoice)

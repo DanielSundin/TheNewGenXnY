@@ -10,8 +10,7 @@ namespace SSCEUPClassLibrary
         public Question()
         {
             
-        }
-         
+        }         
 
         public Question(int surveyId, bool isYesNoQuestion,string text)
         {
