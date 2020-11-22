@@ -15,9 +15,10 @@ namespace SSCEUP
         }
         private static string currentUser = "";
 
-        public static string CurrentUser 
-        { get {return currentUser;} 
-        set { currentUser = value; }
+        public static string CurrentUser
+        {
+            get { return currentUser; }
+            set { currentUser = value; }
         }
         private static void RunLogin()
         {
@@ -50,12 +51,12 @@ namespace SSCEUP
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == 2)
                 {
-                    CurrentUser=inputName;
+                    CurrentUser = inputName;
                     RunUserMode(surveyManager);
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == 3)
                 {
-                    CurrentUser=inputName;
+                    CurrentUser = inputName;
                     RunAdminMode(surveyManager);
                 }
             }
@@ -148,11 +149,21 @@ namespace SSCEUP
                 bool exists = surveyManager.CheckSurveyCode(surveyCode);
                 if (exists == true)
                 {
-                    Console.Clear();
-                    isCodeFound = true;
-                    System.Console.Write("Survey Name: ");
-                    System.Console.Write(surveyManager.GetSurveyTitle(surveyCode) + "\n");
-                    PressEnterToContinue();
+                    if (surveyManager.CheckUIdAndSIdAgainstDB(surveyManager.GetUserId(currentUser), surveyManager.GetSurveyId(surveyCode)) == false)
+                    {
+                        Console.Clear();
+                        isCodeFound = true;
+                        System.Console.Write("Survey Name: ");
+                        System.Console.Write(surveyManager.GetSurveyTitle(surveyCode) + "\n");
+                        PressEnterToContinue();
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("You have already done this survey.");
+                        PressEnterToContinue();
+                        return;
+                    }
+
                 }
                 else
                 {
@@ -165,13 +176,13 @@ namespace SSCEUP
             Console.Clear();
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
             List<Answer> answers = new List<Answer>();
-            int QuestionCounter =1;
+            int QuestionCounter = 1;
             foreach (var question in ListOfquestions)
             {
                 bool validChoice = false;
                 if (question.IsYesNoQuestion == true)
                 {
-                    Console.Clear(); 
+                    Console.Clear();
                     while (!validChoice)
                     {
                         System.Console.WriteLine($"Question {QuestionCounter.ToString()} :  {question.Text}\n");
@@ -197,7 +208,7 @@ namespace SSCEUP
                 }
 
                 else if (question.IsYesNoQuestion == false)
-                { 
+                {
 
                     Console.Clear();
                     while (!validChoice)
@@ -227,7 +238,7 @@ namespace SSCEUP
 
                     }
                 }
-                QuestionCounter ++ ;
+                QuestionCounter++;
             }
             Console.Clear();
             surveyManager.InsertAnswers(answers);
