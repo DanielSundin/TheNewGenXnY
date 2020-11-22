@@ -65,12 +65,6 @@ namespace SSCEUPClassLibrary
             return survey.Title;
         }
         
-        public void InsertUserandSurveyintoDB()
-        {
-            
-        }
-
-
         public int GetUserId(string userName)
         {
             List<User> tempUser = new List<User>(db.GetUser(userName));

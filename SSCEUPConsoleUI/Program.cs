@@ -13,7 +13,12 @@ namespace SSCEUP
         {
             RunLogin();
         }
+        private static string currentUser = "";
 
+        public static string CurrentUser 
+        { get {return currentUser;} 
+        set { currentUser = value; }
+        }
         private static void RunLogin()
         {
             LoginAuthentication loginauth = new LoginAuthentication();
@@ -45,10 +50,12 @@ namespace SSCEUP
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == 2)
                 {
+                    CurrentUser=inputName;
                     RunUserMode(surveyManager);
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == 3)
                 {
+                    CurrentUser=inputName;
                     RunAdminMode(surveyManager);
                 }
             }
@@ -224,7 +231,7 @@ namespace SSCEUP
             }
             Console.Clear();
             surveyManager.InsertAnswers(answers);
-            surveyManager.InsertUserandSurveyintoDB(userID, surveyManager.GetSurveyId(surveyCode));
+            surveyManager.InsertUserIdAndSurveyIdToUserSurvey(surveyManager.GetUserId(currentUser), surveyManager.GetSurveyId(surveyCode));
             System.Console.WriteLine("Thank you for participating, have a nice day!");
             PressEnterToContinue();
 
