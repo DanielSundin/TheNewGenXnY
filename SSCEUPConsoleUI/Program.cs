@@ -29,9 +29,9 @@ namespace SSCEUP
             ColorTheText("green","\nLOGIN PROMPT\n");
             for (int loginAttempts = 1; loginAttempts <= 3; loginAttempts++)
             {
-                ColorTheText("cyan","Enter Username");
+                ColorTheText("cyan","Enter Username\n");
                 string inputName = Console.ReadLine().ToLower();
-                ColorTheText("cyan","Enter Password");
+                ColorTheText("cyan","Enter Password\n");
                 string inputPass = Console.ReadLine().ToLower();
                 loginauth.CheckLoginInfo(inputName, inputPass);
 
@@ -68,7 +68,7 @@ namespace SSCEUP
             {
                 // user menu
                 Console.Clear();
-                ColorTheText("green","\tOptions\n[D]o Survey\n[Q]uit");
+                ColorTheText("green","\tOptions\n[D]o Survey\n[Q]uit\n");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
@@ -85,7 +85,7 @@ namespace SSCEUP
                         }
                     default:
                         {
-                            ColorTheText("red","Invalid Choice!");
+                            ColorTheText("red","Invalid Choice!\n");
                             PressEnterToContinue();
                             break;
                         }
@@ -99,7 +99,7 @@ namespace SSCEUP
             {
                 // Admin Menu
                 Console.Clear();
-                ColorTheText("green","\tOptions\n[A]dd Survey\n[L]ist Surveys\n[G]et Statistics\n[Q]uit");
+                ColorTheText("green","\tOptions\n[A]dd Survey\n[L]ist Surveys\n[G]et Statistics\n[Q]uit\n");
                 string input = Console.ReadLine().ToUpper();
                 switch (input)
                 {
@@ -128,7 +128,7 @@ namespace SSCEUP
                             break;
                         }
                     default:
-                        ColorTheText("red","Returning you to menu - try choosing a valid menu option");
+                        ColorTheText("red","Returning you to menu - try choosing a valid menu option\n");
                         RunAdminMode(surveyManager);
                         return;
                 }
@@ -142,7 +142,7 @@ namespace SSCEUP
             while (!isCodeFound)
             {
                 Console.Clear();
-                ColorTheText("green","Input given surveycode: ");
+                ColorTheText("green","Input given surveycode: \n");
                 surveyCode = Console.ReadLine();
                 bool exists = surveyManager.CheckSurveyCode(surveyCode);
                 if (exists == true)
@@ -154,7 +154,7 @@ namespace SSCEUP
                 }
                 else
                 {
-                    ColorTheText("red", "Code not found");
+                    ColorTheText("red", "Code not found\n");
                     PressEnterToContinue();
                     return;
                 }
@@ -172,9 +172,9 @@ namespace SSCEUP
                     Console.Clear(); 
                     while (!validChoice)
                     {
-                        System.Console.WriteLine($"Question {QuestionCounter.ToString()} :  {question.Text}");
-                        System.Console.WriteLine("\n [Y] or [N]\n");
-                        System.Console.Write("Answer: ");
+                        ColorTheText("cyan",$"Question {QuestionCounter.ToString()} :  {question.Text}\n\n");
+                        ColorTheText("green","\n [Y] or [N]\n\n");
+                        ColorTheText("green","Answer: ");
                         string choice = Console.ReadLine().ToUpper().Trim();
                         if (choice == "Y")
                         {
@@ -200,7 +200,7 @@ namespace SSCEUP
                     Console.Clear();
                     while (!validChoice)
                     {
-                        System.Console.WriteLine($"Question {QuestionCounter.ToString()} :  {question.Text}\n");
+                        ColorTheText("cyan",$"Question {QuestionCounter.ToString()} :  {question.Text}\n\n");
                         PrintAnswerScale(answerScale);
                         int userInput = 0;
                         try
@@ -229,14 +229,14 @@ namespace SSCEUP
             }
             Console.Clear();
             surveyManager.InsertAnswers(answers);
-            ColorTheText("blue","Thank you for participating, have a nice day!");
+            ColorTheText("cyan","Thank you for participating, have a nice day!\n");
             PressEnterToContinue();
 
         }
 
         public static void CreateSurvey(SurveyManager surveyManager)
         {
-            ColorTheText("green","What do you want to name the survey?");
+            ColorTheText("green","What do you want to name the survey?\n");
             string surveyName = Console.ReadLine();
             if (string.IsNullOrEmpty(surveyName) == true)
             {
@@ -244,7 +244,7 @@ namespace SSCEUP
                 PressEnterToContinue();
                 return;
             }
-            ColorTheText("green","Survey Code?");
+            ColorTheText("green","Survey Code?\n");
             string surveyCode = Console.ReadLine();
             if (string.IsNullOrEmpty(surveyCode) == true)
             {
@@ -260,7 +260,7 @@ namespace SSCEUP
             bool isDone = false;
             while (isDone == false)
             {
-                ColorTheText("green","What is the question?");
+                ColorTheText("green","What is the question?\n");
                 string input = Console.ReadLine();
                 if (string.IsNullOrEmpty(input) == true)
                 {
@@ -501,7 +501,7 @@ namespace SSCEUP
                 default:
                     break;
             }
-            Console.Write($"{text}\n");
+            Console.Write($"{text}");
             Console.ResetColor();
         }
 
