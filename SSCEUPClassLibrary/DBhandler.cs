@@ -111,11 +111,11 @@ namespace SSCEUPClassLibrary
             }
         }
 
-        internal IEnumerable<int> CheckUserIDAndSurveyId(int userId, int surveyId)
+        internal IEnumerable<User_Survey> CheckUserIDAndSurveyIdInDB(int userId, int surveyId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<int>("SELECT UserId, SurveyId FROM USER_SURVEY WHERE UserId = @userId AND SurveyId = @survey", new {UserId = userId, SurveyId = surveyId} );
+                return connection.Query<User_Survey>("SELECT UserId, SurveyId FROM USER_SURVEY WHERE UserId = @userId AND SurveyId = @surveyId", new {UserId = userId, SurveyId = surveyId} );
             }
         }
     }
