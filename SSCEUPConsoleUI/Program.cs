@@ -279,9 +279,9 @@ namespace SSCEUP
                 {
                     ColorTheText("red", "The question cannot be blank.");
                     PressEnterToContinue();
-                    return;
+                    continue;
                 }
-                ColorTheText("green", "Is this a [Y]es or no question or a [S]cale question");
+                ColorTheText("green", "Is this a [Y]es or no question or a [S]cale question\n");
                 string choice = Console.ReadLine().ToUpper().Trim();
 
                 switch (choice)
