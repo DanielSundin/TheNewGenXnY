@@ -22,7 +22,7 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<User>("SELECT UserName,UserPass,IsAdmin FROM [USER] WHERE UserName = @userName", new { UserName = userName });
+                return connection.Query<User>("SELECT UserId,UserName,UserPass,IsAdmin FROM [USER] WHERE UserName = @userName", new { UserName = userName });
             }
         }
 
