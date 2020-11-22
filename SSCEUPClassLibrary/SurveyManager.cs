@@ -72,6 +72,11 @@ namespace SSCEUPClassLibrary
             return tempUser[0].UserId;
         }
 
+        public void InsertUserIdAndSurveyIdToUserSurvey(int userId, int surveyId)
+        {
+            db.InsertIntoUserSurvey(userId, surveyId);
+        }
+
         // public Survey GetSurveyTitle(string surveyCode)
         // {
         //     Survey surveyTitle = db.GetSurveyTitleFromDB();
