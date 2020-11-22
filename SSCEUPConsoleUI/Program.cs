@@ -337,7 +337,8 @@ namespace SSCEUP
             {
                 System.Console.WriteLine($"ID: {item.SurveyId}, Name: {item.Title}, Code: {item.SurveyCode}");
             }
-            PressEnterToContinue();
+            ColorTheText("blue","\nPress ENTER to continue.");
+            Console.ReadLine();
         }
 
 
