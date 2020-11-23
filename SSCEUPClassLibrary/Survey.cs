@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace SSCEUPClassLibrary
 {
     public class Survey
@@ -9,10 +6,7 @@ namespace SSCEUPClassLibrary
         public string Title { get; set; }
         public string SurveyCode { get; set; }
 
-        public Survey()
-        {
-
-        }
+        public Survey(){}
 
         public Survey(string title, string surveyCode)
         {

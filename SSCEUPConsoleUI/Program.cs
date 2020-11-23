@@ -42,7 +42,7 @@ namespace SSCEUP
                     if (loginAttempts >= 3)
                     {
                         Console.Clear();
-                        ColorTheText("red", "Too many attempts,try again later.");
+                        ColorTheText("red", "Too many attempts, try again later.");
                         Environment.Exit(0);
                     }
                 }
@@ -292,7 +292,7 @@ namespace SSCEUP
 
                 Console.Clear();
                 bool validChoice = false;
-                Console.WriteLine("Add more Questions? Y/N");
+                Console.WriteLine("Add more questions? Y/N");
                 while (!validChoice)
                 {
                     string continueInput = Console.ReadLine().ToUpper().Trim();
