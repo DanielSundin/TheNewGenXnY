@@ -13,6 +13,7 @@ namespace SSCEUP
             // StartupMessage();
             RunLogin();
         }
+        
         private static string currentUser = "";
 
         public static string CurrentUser
