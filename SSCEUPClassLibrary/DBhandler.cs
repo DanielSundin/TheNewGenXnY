@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 
-
 namespace SSCEUPClassLibrary
 {
     class DBhandler

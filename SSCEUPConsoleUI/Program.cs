@@ -4,8 +4,6 @@ using System.Threading;
 using Figgle;
 using SSCEUPClassLibrary;
 
-
-
 namespace SSCEUP
 {
     class Program
@@ -167,6 +165,7 @@ namespace SSCEUP
                     return;
                 }
             }
+            
             Console.Clear();
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
             List<Answer> answers = new List<Answer>();
