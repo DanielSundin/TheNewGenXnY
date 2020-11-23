@@ -1,4 +1,3 @@
-
 namespace SSCEUPClassLibrary
 {
     class User_Survey

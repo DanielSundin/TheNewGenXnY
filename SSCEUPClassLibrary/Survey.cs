@@ -5,8 +5,6 @@ namespace SSCEUPClassLibrary
 {
     public class Survey
     {
-        //private List<Question> questions = new List<Question>();
-
         public int SurveyId { get; set; }
         public string Title { get; set; }
         public string SurveyCode { get; set; }
@@ -22,10 +20,10 @@ namespace SSCEUPClassLibrary
             this.SurveyCode = surveyCode;
         }
 
-        public Survey(int surveyId,string title)
+        public Survey(int surveyId, string title)
         {
-            this.SurveyId=surveyId;
-            this.Title=title;
+            this.SurveyId = surveyId;
+            this.Title = title;
         }
     }
 }

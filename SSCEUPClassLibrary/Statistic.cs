@@ -9,6 +9,5 @@ namespace SSCEUPClassLibrary
         public int MAX { get; set; }
         public int MIN { get; set; }
         public int YESPROCENT { get; set; }
-        
     }
 }

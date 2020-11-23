@@ -9,20 +9,19 @@ namespace SSCEUPClassLibrary
 
         public Question()
         {
-            
-        }         
 
-        public Question(int surveyId, bool isYesNoQuestion,string text)
-        {
-            this.SurveyId=surveyId;
-            this.IsYesNoQuestion = isYesNoQuestion;
-            this.Text=text;
         }
+
+        public Question(int surveyId, bool isYesNoQuestion, string text)
+        {
+            this.SurveyId = surveyId;
+            this.IsYesNoQuestion = isYesNoQuestion;
+            this.Text = text;
+        }
+
         public Question(string text)
         {
             Text = text;
         }
-     
     }
-
 }
