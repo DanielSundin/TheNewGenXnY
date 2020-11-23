@@ -9,7 +9,6 @@ namespace SSCEUPClassLibrary
 {
     class DBhandler
     {
-
         private readonly string connectionString;
 
         public DBhandler(string connectionString)
@@ -17,8 +16,7 @@ namespace SSCEUPClassLibrary
             this.connectionString = connectionString;
         }
 
-
-        public IEnumerable<User> GetUser(string userName)
+        internal IEnumerable<User> GetUser(string userName)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -56,9 +54,7 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-
                 return connection.Query<Survey>("SELECT SurveyCode, Title FROM SURVEY WHERE SurveyCode = @SurveyCode", new { SurveyCode = surveyCode });
-
             }
         }
 
@@ -77,7 +73,6 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-
                 foreach (var answer in answerlist)
                 {
                     connection.Execute("EXEC [dbo].[spAnswer_SaveAnswer] @YoNAnswer, @ScaleAnswer, @QuestionId", new { answer.YoNAnswer, answer.ScaleAnswer, answer.QuestionId });
@@ -89,9 +84,7 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-
                 return connection.Query<Statistic>("EXEC [dbo].[spQuestion_GetStatistic] @SurveyId", new { SurveyId = surveyId }).ToList();
-
             }
         }
 
@@ -107,7 +100,7 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Execute("INSERT INTO USER_SURVEY (UserId, SurveyId) VALUES (@userId, @surveyId)", new {userId, surveyId});
+                connection.Execute("INSERT INTO USER_SURVEY (UserId, SurveyId) VALUES (@userId, @surveyId)", new { userId, surveyId });
             }
         }
 
@@ -115,7 +108,7 @@ namespace SSCEUPClassLibrary
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Query<User_Survey>("SELECT UserId, SurveyId FROM USER_SURVEY WHERE UserId = @userId AND SurveyId = @surveyId", new {UserId = userId, SurveyId = surveyId} );
+                return connection.Query<User_Survey>("SELECT UserId, SurveyId FROM USER_SURVEY WHERE UserId = @userId AND SurveyId = @surveyId", new { UserId = userId, SurveyId = surveyId });
             }
         }
     }

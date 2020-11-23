@@ -10,7 +10,6 @@ namespace SSCEUP
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             // StartupMessage();
@@ -23,6 +22,7 @@ namespace SSCEUP
             get { return currentUser; }
             set { currentUser = value; }
         }
+
         private static void RunLogin()
         {
             LoginAuthentication loginauth = new LoginAuthentication();
@@ -46,7 +46,6 @@ namespace SSCEUP
                         ColorTheText("red", "Too many attempts,try again later.");
                         Environment.Exit(0);
                     }
-
                 }
                 else if (loginauth.CheckLoginInfo(inputName, inputPass) == 2)
                 {
@@ -67,7 +66,6 @@ namespace SSCEUP
 
             while (true)
             {
-                // user menu
                 Console.Clear();
                 ColorTheText("green", "\tOptions\n[D]o Survey\n[Q]uit\n");
                 string input = Console.ReadLine().ToUpper();
@@ -98,7 +96,6 @@ namespace SSCEUP
         {
             while (true)
             {
-                // Admin Menu
                 Console.Clear();
                 ColorTheText("green", "\tOptions\n[A]dd Survey\n[L]ist Surveys\n[G]et Statistics\n[Q]uit\n");
                 string input = Console.ReadLine().ToUpper();
@@ -135,6 +132,7 @@ namespace SSCEUP
                 }
             }
         }
+
         private static void DoSurvey(SurveyManager surveyManager, Dictionary<string, string> answerScale)
         {
             Console.Clear();
@@ -148,7 +146,6 @@ namespace SSCEUP
                 bool exists = surveyManager.CheckSurveyCode(surveyCode);
                 if (exists == true)
                 {
-
                     if (surveyManager.CheckUIdAndSIdAgainstDB(surveyManager.GetUserId(currentUser), surveyManager.GetSurveyId(surveyCode)) == false)
                     {
                         Console.Clear();
@@ -162,7 +159,6 @@ namespace SSCEUP
                         PressEnterToContinue();
                         return;
                     }
-
                 }
                 else
                 {
@@ -170,7 +166,6 @@ namespace SSCEUP
                     PressEnterToContinue();
                     return;
                 }
-
             }
             Console.Clear();
             List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
@@ -208,7 +203,6 @@ namespace SSCEUP
 
                 else if (question.IsYesNoQuestion == false)
                 {
-
                     Console.Clear();
                     while (!validChoice)
                     {
@@ -234,7 +228,6 @@ namespace SSCEUP
                             ColorTheText("red", "Input should preferably be a number and between 1-5");
                             PressEnterToContinue();
                         }
-
                     }
                 }
                 QuestionCounter++;
@@ -244,7 +237,6 @@ namespace SSCEUP
             surveyManager.InsertAnswers(answers);
             ColorTheText("cyan", "Thank you for participating, have a nice day!\n");
             PressEnterToContinue();
-
         }
 
         public static void CreateSurvey(SurveyManager surveyManager)
@@ -281,9 +273,9 @@ namespace SSCEUP
                     PressEnterToContinue();
                     continue;
                 }
+
                 ColorTheText("green", "Is this a [Y]es or no question or a [S]cale question\n");
                 string choice = Console.ReadLine().ToUpper().Trim();
-
                 switch (choice)
                 {
                     case "Y":
@@ -297,13 +289,13 @@ namespace SSCEUP
                         PressEnterToContinue();
                         continue;
                 }
+
                 Console.Clear();
                 bool validChoice = false;
                 Console.WriteLine("Add more Questions? Y/N");
-                
                 while (!validChoice)
                 {
-                string continueInput = Console.ReadLine().ToUpper().Trim();    
+                    string continueInput = Console.ReadLine().ToUpper().Trim();
                     if (continueInput == "N")
                     {
                         validChoice = true;
@@ -314,14 +306,14 @@ namespace SSCEUP
                         }
                         catch (System.Data.SqlClient.SqlException e)
                         {
-                            ColorTheText("red","There is something off with the database. I can't really see what from here..");
+                            ColorTheText("red", "There is something off with the database. I can't really see what from here..");
                             Console.ReadKey();
                             Console.WriteLine(e);
                             return;
                         }
                         catch (Exception e)
                         {
-                            ColorTheText("red","Something went wrong...press key to read error message");
+                            ColorTheText("red", "Something went wrong...press key to read error message");
                             Console.ReadKey();
                             Console.WriteLine(e);
                             return;
@@ -334,7 +326,7 @@ namespace SSCEUP
                     }
                     else
                     {
-                        ColorTheText("red","Does that mean NO? Please confirm (Y/N)");
+                        ColorTheText("red", "Does that mean NO? Please confirm (Y/N)");
                         isDone = false;
                         continue;
                     }
@@ -349,7 +341,6 @@ namespace SSCEUP
             Console.Clear();
         }
 
-
         public static void PrintSurveys(SurveyManager surveyManager)
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -360,7 +351,6 @@ namespace SSCEUP
             ColorTheText("blue", "\nPress ENTER to continue.");
             Console.ReadLine();
         }
-
 
         public static Dictionary<string, string> DefineAnswerScaleValues()
         {
@@ -384,11 +374,11 @@ namespace SSCEUP
             Console.ResetColor();
         }
 
-
         public static void GetStatistics(SurveyManager surveyManager)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Welcome to Statistics");
+
             while (true)
             {
                 int surveyId = ValidateInt("Input Survey ID:");
@@ -418,7 +408,6 @@ namespace SSCEUP
                 }
             }
         }
-
 
         public static int ValidateInt(string message)
         {
@@ -556,7 +545,6 @@ namespace SSCEUP
             Console.WriteLine(FiggleFonts.Slant.Render(text));
             Console.ResetColor();
         }
-
     }
 }
 

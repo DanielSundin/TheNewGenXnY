@@ -28,7 +28,6 @@ namespace SSCEUPClassLibrary
         public int GetSurveyId(string surveyCode)
         {
             int surveyID = db.GetSurveyIdFromDB(surveyCode);
-
             return surveyID;
         }
 
@@ -68,7 +67,6 @@ namespace SSCEUPClassLibrary
         public int GetUserId(string userName)
         {
             List<User> tempUser = new List<User>(db.GetUser(userName));
-
             return tempUser[0].UserId;
         }
 
@@ -82,7 +80,7 @@ namespace SSCEUPClassLibrary
             List<User_Survey> validateInfo = new List<User_Survey>(db.CheckUserIDAndSurveyIdInDB(userId, surveyId));
             if (validateInfo.Count == 0)
             {
-                    return false;
+                return false;
             }
             if (userId == validateInfo[0].UserId && surveyId == validateInfo[0].SurveyId)
             {
@@ -93,11 +91,5 @@ namespace SSCEUPClassLibrary
                 return false;
             }
         }
-
-        // public Survey GetSurveyTitle(string surveyCode)
-        // {
-        //     Survey surveyTitle = db.GetSurveyTitleFromDB();
-        //     return surveyTitle
-        // }
     }
 }

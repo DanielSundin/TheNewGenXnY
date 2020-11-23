@@ -8,7 +8,6 @@ namespace SSCEUPClassLibrary
 
         public bool YoNAnswer { get; set; }
 
-
         public Answer(int questionId, bool yoNAnswer)
         {
             this.YoNAnswer = yoNAnswer;
@@ -20,6 +19,7 @@ namespace SSCEUPClassLibrary
             this.ScaleAnswer = scaleAnswer;
             this.QuestionId = questionId;
         }
+
         public Answer(int questionId, int scaleAnswer, bool yoNAnswer)
         {
             this.ScaleAnswer = scaleAnswer;
