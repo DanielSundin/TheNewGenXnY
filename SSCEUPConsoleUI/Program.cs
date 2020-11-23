@@ -168,10 +168,10 @@ namespace SSCEUP
             }
             
             Console.Clear();
-            List<Question> ListOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
+            List<Question> listOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
             List<Answer> answers = new List<Answer>();
             int QuestionCounter = 1;
-            foreach (var question in ListOfquestions)
+            foreach (var question in listOfquestions)
             {
                 bool validChoice = false;
                 if (question.IsYesNoQuestion == true)
