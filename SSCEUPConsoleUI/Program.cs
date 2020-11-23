@@ -10,10 +10,10 @@ namespace SSCEUP
     {
         static void Main(string[] args)
         {
-            // StartupMessage();
+            StartupMessage();
             RunLogin();
         }
-        
+
         private static string currentUser = "";
 
         public static string CurrentUser
@@ -215,7 +215,6 @@ namespace SSCEUP
                         }
                         catch
                         {
-                            // System.Console.WriteLine("Error! " + e.Message);
                         }
                         if (userInput > 0 && userInput < 6)
                         {
