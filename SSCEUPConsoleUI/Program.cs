@@ -185,12 +185,12 @@ namespace SSCEUP
                         string choice = Console.ReadLine().ToUpper().Trim();
                         if (choice == "Y")
                         {
-                            answers.Add(new Answer(question.QuestionId, true));
+                            answers.Add(surveyManager.ReturnYorNAnswer(question.QuestionId, true));
                             validChoice = true;
                         }
                         else if (choice == "N")
                         {
-                            answers.Add(new Answer(question.QuestionId, false));
+                            answers.Add(surveyManager.ReturnYorNAnswer(question.QuestionId, false));
                             validChoice = true;
                         }
                         else
@@ -218,7 +218,7 @@ namespace SSCEUP
                         }
                         if (userInput > 0 && userInput < 6)
                         {
-                            answers.Add(new Answer(question.QuestionId, userInput));
+                            answers.Add(surveyManager.ReturnScaleAnswer(question.QuestionId, userInput));
                             validChoice = true;
                         }
                         else
@@ -278,10 +278,10 @@ namespace SSCEUP
                 switch (choice)
                 {
                     case "Y":
-                        questions.Add(new Question(surveyid, true, input));
+                        questions.Add(surveyManager.ReturnQuestion(surveyid, true, input));
                         break;
                     case "S":
-                        questions.Add(new Question(surveyid, false, input));
+                        questions.Add(surveyManager.ReturnQuestion(surveyid, false, input));
                         break;
                     default:
                         ColorTheText("red", "If you dont know if this is a yes or no question or not, maybe you should rephrase the question!");
