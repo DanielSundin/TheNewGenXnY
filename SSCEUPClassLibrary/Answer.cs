@@ -2,11 +2,11 @@ namespace SSCEUPClassLibrary
 {
     public class Answer
     {
-        public int QuestionId { get; set; }
+        public int QuestionId { get; private set; }
 
-        public int ScaleAnswer { get; set; }
+        public int ScaleAnswer { get; private set; }
 
-        public bool YoNAnswer { get; set; }
+        public bool YoNAnswer { get; private set; }
 
         public Answer(int questionId, bool yoNAnswer)
         {
@@ -18,13 +18,6 @@ namespace SSCEUPClassLibrary
         {
             this.ScaleAnswer = scaleAnswer;
             this.QuestionId = questionId;
-        }
-
-        public Answer(int questionId, int scaleAnswer, bool yoNAnswer)
-        {
-            this.ScaleAnswer = scaleAnswer;
-            this.QuestionId = questionId;
-            this.YoNAnswer = yoNAnswer;
         }
     }
 }

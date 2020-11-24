@@ -1,8 +1,8 @@
 namespace SSCEUPClassLibrary
 {
-    class User_Survey
+    internal class User_Survey
     {
-        public int UserId { get; set; }
-        public int SurveyId { get; set; }
+        internal int UserId { get; private set; }
+        internal int SurveyId { get; private set; }
     }
 }

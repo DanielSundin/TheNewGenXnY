@@ -2,12 +2,12 @@ namespace SSCEUPClassLibrary
 {
     public class Statistic
     {
-        public string Title { get; set; }
-        public string Text { get; set; }
-        public bool IsYesNoQuestion { get; set; }
-        public int AVG { get; set; }
-        public int MAX { get; set; }
-        public int MIN { get; set; }
-        public int YESPROCENT { get; set; }
+        public string Title { get; private set; }
+        public string Text { get; private set; }
+        public bool IsYesNoQuestion { get; private set; }
+        public int AVG { get; private set; }
+        public int MAX { get; private set; }
+        public int MIN { get; private set; }
+        public int YESPROCENT { get; private set; }
     }
 }

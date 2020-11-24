@@ -6,8 +6,7 @@ namespace SSCEUPClassLibrary
     public class LoginAuthentication
     {
         DBhandler dbHandler = new DBhandler("Server=40.85.84.155;Database=OOPGroup4;User=Student22;Password=zombie-virus@2020;");
-        private List<User> listOfUserInfo = new List<User>();
-
+       
         public int CheckLoginInfo(string inputName, string inputPass)
         {
             User loginUser = dbHandler.GetUser(inputName).FirstOrDefault();

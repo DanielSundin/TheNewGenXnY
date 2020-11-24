@@ -238,7 +238,7 @@ namespace SSCEUP
             PressEnterToContinue();
         }
 
-        public static void CreateSurvey(SurveyManager surveyManager)
+        private static void CreateSurvey(SurveyManager surveyManager)
         {
             ColorTheText("green", "What do you want to name the survey?\n");
             string surveyName = Console.ReadLine();
@@ -340,7 +340,7 @@ namespace SSCEUP
             Console.Clear();
         }
 
-        public static void PrintSurveys(SurveyManager surveyManager)
+        private static void PrintSurveys(SurveyManager surveyManager)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             foreach (var item in surveyManager.GetSurveys())
@@ -351,7 +351,7 @@ namespace SSCEUP
             Console.ReadLine();
         }
 
-        public static Dictionary<string, string> DefineAnswerScaleValues()
+        private static Dictionary<string, string> DefineAnswerScaleValues()
         {
             Dictionary<string, string> answerScale = new Dictionary<string, string>();
             answerScale.Add("1", "Strongly Disagree ");
@@ -362,7 +362,7 @@ namespace SSCEUP
             return answerScale;
         }
 
-        public static void PrintAnswerScale(Dictionary<string, string> answerScale)
+        private static void PrintAnswerScale(Dictionary<string, string> answerScale)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             foreach (var item in answerScale)
@@ -373,7 +373,7 @@ namespace SSCEUP
             Console.ResetColor();
         }
 
-        public static void GetStatistics(SurveyManager surveyManager)
+        private static void GetStatistics(SurveyManager surveyManager)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Welcome to Statistics");
@@ -408,7 +408,7 @@ namespace SSCEUP
             }
         }
 
-        public static int ValidateInt(string message)
+        private static int ValidateInt(string message)
         {
             int intToValidate = 0;
             bool isNotConverted = true;
@@ -429,7 +429,7 @@ namespace SSCEUP
             return intToValidate;
         }
 
-        public static void StartupMessage()
+        private static void StartupMessage()
         {
             Console.Clear();
             ColorTheAscII("red", "GenXnY");

@@ -5,7 +5,7 @@ using Dapper;
 
 namespace SSCEUPClassLibrary
 {
-    class DBhandler
+    internal class DBhandler
     {
         private readonly string connectionString;
 
