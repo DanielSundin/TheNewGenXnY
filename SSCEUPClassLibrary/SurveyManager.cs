@@ -91,16 +91,17 @@ namespace SSCEUPClassLibrary
             }
 
         }
+
         public Answer ReturnScaleAnswer(int questionId, int userinput)
         {
             return Survey.CreateScaleAnswer(questionId, userinput);
-
         }
-             public Answer ReturnYorNAnswer(int questionId, bool YorN)
+
+        public Answer ReturnYorNAnswer(int questionId, bool YorN)
         {
             return Survey.CreateYorNAnswer(questionId, YorN);
-
         }
+
         public Question ReturnQuestion(int surveyId, bool YorN, string Text)
         {
             return Survey.CreateQuestion(surveyId, YorN, Text);
