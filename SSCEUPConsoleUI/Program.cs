@@ -10,7 +10,7 @@ namespace SSCEUP
     {
         static void Main(string[] args)
         {
-            StartupMessage();
+            // StartupMessage();
             RunLogin();
         }
 
@@ -166,7 +166,7 @@ namespace SSCEUP
                     return;
                 }
             }
-            
+
             Console.Clear();
             List<Question> listOfquestions = surveyManager.GetSurveyWithQuestions(surveyCode);
             List<Answer> answers = new List<Answer>();
@@ -382,29 +382,39 @@ namespace SSCEUP
             {
                 int surveyId = ValidateInt("Input Survey ID:");
                 List<Statistic> listOfStatistics = surveyManager.GetStatistic(surveyId);
-                Console.WriteLine("Survey: " + listOfStatistics[surveyId - 1].Title);
-
-                if (surveyId <= listOfStatistics.Count + 1 && surveyId > 0)
+                if (listOfStatistics.Count == 0)
                 {
-                    foreach (var item in listOfStatistics)
-                    {
-                        if (item.IsYesNoQuestion == true)
-                        {
-                            Console.WriteLine($"Question: {item.Text} \nYes in Procent {item.YESPROCENT}");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Question: {item.Text} \nAVG: {item.AVG} \nMAX: {item.MAX} \nMIN: {item.MIN}");
-                        }
-                    }
-                    PressEnterToContinue();
-                    break;
+                    System.Console.WriteLine("This survey has no answer yet.");
                 }
                 else
                 {
-                    ColorTheText("red", "Invalid Survey Id.");
-                    PressEnterToContinue();
+                Console.WriteLine("Survey: " + listOfStatistics[surveyId - 1].Title);
+                    if (surveyId <= listOfStatistics.Count + 1 && surveyId > 0)
+                    {
+
+
+                        foreach (var item in listOfStatistics)
+                        {
+                            if (item.IsYesNoQuestion == true)
+                            {
+                                Console.WriteLine($"Question: {item.Text} \nYes in Procent {item.YESPROCENT}");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Question: {item.Text} \nAVG: {item.AVG} \nMAX: {item.MAX} \nMIN: {item.MIN}");
+                            }
+                        }
+                        PressEnterToContinue();
+                        break;
+
+                    }
+                    else
+                    {
+                        ColorTheText("red", "Invalid Survey Id.");
+                        PressEnterToContinue();
+                    }
                 }
+
             }
         }
 
@@ -423,7 +433,7 @@ namespace SSCEUP
                 catch (Exception e)
                 {
                     ColorTheText("red", "Error! " + e.Message);
-                    ColorTheText("red", "Try again.");
+                    ColorTheText("red", "Try again.\n");
                 }
             }
             return intToValidate;
