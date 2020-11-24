@@ -81,7 +81,7 @@ namespace SSCEUPClassLibrary
             {
                 return false;
             }
-            if (userId == validateInfo[0].UserId && surveyId == validateInfo[0].SurveyId)
+            else if (userId == validateInfo[0].UserId && surveyId == validateInfo[0].SurveyId)
             {
                 return true;
             }
