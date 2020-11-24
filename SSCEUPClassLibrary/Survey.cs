@@ -6,6 +6,7 @@ namespace SSCEUPClassLibrary
         public string Title { get; private set; }
         public string SurveyCode { get; private set; }
 
+        public Survey () {}
         internal Survey(string title, string surveyCode)
         {
             this.Title = title;

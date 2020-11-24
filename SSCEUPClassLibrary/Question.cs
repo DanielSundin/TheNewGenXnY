@@ -7,6 +7,7 @@ namespace SSCEUPClassLibrary
         public bool IsYesNoQuestion { get; private set; }
         public string Text { get; private set; }
 
+        public Question() {}
         internal Question(int surveyId, bool isYesNoQuestion, string text)
         {
             this.SurveyId = surveyId;
