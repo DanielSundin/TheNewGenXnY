@@ -8,14 +8,11 @@
 * Svaren måste vara anonyma, men det ska lagras att en viss användare har svarat på en viss undersökning
 
 
-## TODO
+## Hej Gustav
 
-* lista namn på survey
-* kolla survecode mot user / surveyid mot userid
-* & logik att stoppa dubletter i program av detta
-* mer validering
-* snygga statistik
-* snygga menyer
-* snygga allmänt
-             
+Du har en user skapad i databasen som har username Gustav och Password 1234 (du gillar ju säkra passwords).
+Med det loginnet kan du göra undersökningar.
+Du har dessa surveycodes att logga in med : chill, lift, hoho.
+Tänk på att du bara kan göra undersökningen en gång.
+Det finns också ett login för en adminanvändare: admin, qwerty.
      
