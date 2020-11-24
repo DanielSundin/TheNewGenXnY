@@ -9,7 +9,7 @@ namespace SSCEUPClassLibrary
     {
         private readonly string connectionString;
 
-        public DBhandler(string connectionString)
+        internal DBhandler(string connectionString)
         {
             this.connectionString = connectionString;
         }
